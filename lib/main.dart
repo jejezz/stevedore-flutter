@@ -18,6 +18,8 @@ import 'l10n/app_localizations.dart';
 import 'settings/app_settings.dart';
 import 'settings/settings_menus.dart';
 import 'theme/app_theme.dart';
+import 'engine/tidy_engine.dart';
+import 'rules/rule_store.dart';
 import 'tray/tray_controller.dart';
 
 final bool _isDesktop = Platform.isMacOS || Platform.isWindows || Platform.isLinux;
@@ -42,13 +44,23 @@ Future<void> main() async {
   }
 
   final settings = await AppSettings.load();
-  runApp(App(settings: settings));
+  runApp(App(settings: settings, engine: await _startEngine()));
+}
+
+/// 저장된 규칙으로 감시를 시작한다. 데스크톱에서만 돈다. 규칙이 없으면 감시할 폴더도 없다.
+Future<TidyEngine?> _startEngine() async {
+  if (!_isDesktop) return null;
+  final engine = TidyEngine();
+  await engine.setRules(await RuleStore.standard().load());
+  await engine.start();
+  return engine;
 }
 
 class App extends StatefulWidget {
-  const App({super.key, required this.settings});
+  const App({super.key, required this.settings, this.engine});
 
   final AppSettings settings;
+  final TidyEngine? engine;
 
   @override
   State<App> createState() => _AppState();
@@ -74,6 +86,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   void dispose() {
     widget.settings.removeListener(_syncWindowBrightness);
     _tray?.dispose();
+    widget.engine?.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
