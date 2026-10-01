@@ -203,5 +203,40 @@
         "type": "int"
       }
     }
-  }
+  },
+  "loginItemLabel": "로그인 시 자동 실행",
+  "loginItemFailed": "자동 실행 설정을 바꾸지 못했습니다: {error}",
+  "@loginItemFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "presetsStart": "추천 규칙으로 시작",
+  "presetsTitle": "추천 규칙",
+  "presetsIntro": "고른 규칙은 Downloads 폴더에 적용됩니다. 이미 있는 파일도 바로 정리되고, 최근 기록에서 되돌릴 수 있습니다.",
+  "presetsAdd": "추가 ({count})",
+  "@presetsAdd": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "presetsAlready": "이미 있음",
+  "presetCount": "지금 {count}개",
+  "@presetCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "presetDocuments": "문서",
+  "presetImages": "이미지",
+  "presetInstallers": "설치 파일",
+  "presetArchives": "압축 파일",
+  "presetOldInstallers": "30일 지난 설치 파일",
+  "trayLoginItem": "로그인 시 자동 실행"
 }

@@ -7,13 +7,15 @@ import 'package:window_manager/window_manager.dart';
 import '../l10n/app_localizations.dart';
 import '../app_identity.dart';
 import '../settings/app_settings.dart';
+import '../system/login_item.dart';
 
 /// 상주 동작을 맡는다: 트레이/메뉴바 아이콘과 메뉴, 창을 닫으면 숨기기만 하고
 /// 앱은 계속 실행한다. 완전히 끝내는 길은 트레이 메뉴의 "종료"뿐이다.
 class TrayController with TrayListener, WindowListener {
-  TrayController({required this.settings, required this.onAbout, required this.onTidyNow});
+  TrayController({required this.settings, required this.loginItem, required this.onAbout, required this.onTidyNow});
 
   final AppSettings settings;
+  final LoginItemController loginItem;
 
   /// 정보 창 열기. 창을 먼저 보여준 뒤 부른다 (about-dialog.md §1: 앱 메뉴가
   /// 없는 상주 앱은 트레이 메뉴가 그 자리를 대신한다).
@@ -25,6 +27,7 @@ class TrayController with TrayListener, WindowListener {
   static const _keyOpen = 'open';
   static const _keyTidyNow = 'tidy_now';
   static const _keyAbout = 'about';
+  static const _keyLogin = 'login_item';
   static const _keyQuit = 'quit';
 
   Future<void> init() async {
@@ -36,11 +39,13 @@ class TrayController with TrayListener, WindowListener {
       isTemplate: true, // macOS: 라이트/다크 메뉴바 색을 OS가 맡는다 (icons.md §4).
     );
     settings.addListener(_rebuildMenu);
+    loginItem.addListener(_rebuildMenu);
     await _rebuildMenu();
   }
 
   Future<void> dispose() async {
     settings.removeListener(_rebuildMenu);
+    loginItem.removeListener(_rebuildMenu);
     trayManager.removeListener(this);
     windowManager.removeListener(this);
     await trayManager.destroy();
@@ -59,6 +64,8 @@ class TrayController with TrayListener, WindowListener {
       MenuItem(key: _keyOpen, label: l10n.trayOpen),
       MenuItem(key: _keyTidyNow, label: l10n.trayTidyNow),
       MenuItem.separator(),
+      if (loginItem.supported)
+        MenuItem.checkbox(key: _keyLogin, label: l10n.trayLoginItem, checked: loginItem.enabled),
       MenuItem(key: _keyAbout, label: l10n.aboutMenuItem(AppIdentity.displayName)),
       MenuItem.separator(),
       MenuItem(key: _keyQuit, label: l10n.trayQuit),
@@ -90,6 +97,8 @@ class TrayController with TrayListener, WindowListener {
         showWindow();
       case _keyTidyNow:
         showWindow().then((_) => onTidyNow());
+      case _keyLogin:
+        loginItem.setEnabled(!loginItem.enabled);
       case _keyAbout:
         showWindow().then((_) => onAbout());
       case _keyQuit:

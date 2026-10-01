@@ -301,4 +301,53 @@ class AppLocalizationsKo extends AppLocalizations {
   String condOlderThan(int days) {
     return '$days일 이상 지남';
   }
+
+  @override
+  String get loginItemLabel => '로그인 시 자동 실행';
+
+  @override
+  String loginItemFailed(String error) {
+    return '자동 실행 설정을 바꾸지 못했습니다: $error';
+  }
+
+  @override
+  String get presetsStart => '추천 규칙으로 시작';
+
+  @override
+  String get presetsTitle => '추천 규칙';
+
+  @override
+  String get presetsIntro =>
+      '고른 규칙은 Downloads 폴더에 적용됩니다. 이미 있는 파일도 바로 정리되고, 최근 기록에서 되돌릴 수 있습니다.';
+
+  @override
+  String presetsAdd(int count) {
+    return '추가 ($count)';
+  }
+
+  @override
+  String get presetsAlready => '이미 있음';
+
+  @override
+  String presetCount(int count) {
+    return '지금 $count개';
+  }
+
+  @override
+  String get presetDocuments => '문서';
+
+  @override
+  String get presetImages => '이미지';
+
+  @override
+  String get presetInstallers => '설치 파일';
+
+  @override
+  String get presetArchives => '압축 파일';
+
+  @override
+  String get presetOldInstallers => '30일 지난 설치 파일';
+
+  @override
+  String get trayLoginItem => '로그인 시 자동 실행';
 }

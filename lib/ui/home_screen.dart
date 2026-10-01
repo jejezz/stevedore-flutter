@@ -8,17 +8,21 @@ import '../l10n/app_localizations.dart';
 import '../settings/settings_menus.dart';
 import '../theme/app_theme.dart';
 import 'history_list.dart';
+import '../system/login_item.dart';
+import 'login_item_button.dart';
 import 'preview_dialog.dart';
+import 'presets_dialog.dart';
 import 'rule_editor.dart';
 import '../rules/rule.dart';
 import 'rules_list.dart';
 
 /// 메인 화면: 규칙 요약 + "지금 정리" + 최근 기록. 규칙도 기록도 없으면 빈 상태 (ui-ux.md §6).
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.onAbout, required this.service});
+  const HomeScreen({super.key, required this.onAbout, required this.service, required this.loginItem});
 
   final VoidCallback onAbout;
   final TidyService service;
+  final LoginItemController loginItem;
 
   @override
   State<HomeScreen> createState() => HomeScreenState();
@@ -95,6 +99,7 @@ class HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             title: const Text(AppIdentity.displayName),
             actions: [
+              LoginItemMenuButton(controller: widget.loginItem),
               const ThemeMenuButton(),
               const LanguageMenuButton(),
               IconButton(
@@ -123,6 +128,8 @@ class HomeScreenState extends State<HomeScreen> {
           Text(l10n.homeEmptyTitle, style: theme.textTheme.titleMedium),
           const SizedBox(height: AppSpacing.lg),
           FilledButton(onPressed: _editRule, child: Text(l10n.homeEmptyAction)),
+          const SizedBox(height: AppSpacing.sm),
+          TextButton(onPressed: () => showPresetsDialog(context, widget.service), child: Text(l10n.presetsStart)),
         ],
       ),
     );
@@ -162,6 +169,8 @@ class HomeScreenState extends State<HomeScreen> {
                 child: Text(l10n.homeRulesSummary(service.rules.where((r) => r.enabled).length),
                     style: theme.textTheme.titleMedium),
               ),
+              TextButton(onPressed: () => showPresetsDialog(context, widget.service), child: Text(l10n.presetsTitle)),
+              const SizedBox(width: AppSpacing.sm),
               OutlinedButton.icon(
                 onPressed: _editRule,
                 icon: const Icon(Icons.add_rounded, size: 18),

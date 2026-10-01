@@ -12,3 +12,4 @@ https://github.com/jejezz/application-release-templates/tree/main/conventions
 - 삭제는 항상 휴지통으로 보낸다. 규칙 저장 전 dry-run 미리보기와 이동 이력(되돌리기)을 제공한다.
 - 다운로드 중인 임시 파일(`.crdownload`, `.download`, `.part`)은 건드리지 않고, 크기가 안정된 뒤 처리한다.
 - 아이콘 글리프는 Icons8 crane (`assets/icon/source_glyph.svg`). 교체 후 `python3 tool/icon/generate_icons.py`, 트레이 아이콘(`assets/tray/`)도 함께 갱신.
+- 로그인 시 자동 실행: macOS는 `~/Library/LaunchAgents/art.zoomon.stevedore.plist`, Windows는 HKCU `Run` 키에 `--background` 인자로 등록한다. 이 인자로 시작하면 창 없이 트레이에서만 뜬다 (macOS는 `MainFlutterWindow.swift`가 실행 인자를 Dart로 전달하고 창을 숨긴 채 시작).

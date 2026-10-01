@@ -1,9 +1,13 @@
 import Cocoa
 import FlutterMacOS
+import window_manager
 
 class MainFlutterWindow: NSWindow {
   override func awakeFromNib() {
-    let flutterViewController = FlutterViewController()
+    // macOS는 실행 인자를 Dart로 넘겨주지 않는다. --background 같은 인자를 쓰려면 직접 전달한다.
+    let project = FlutterDartProject()
+    project.dartEntrypointArguments = Array(CommandLine.arguments.dropFirst())
+    let flutterViewController = FlutterViewController(project: project)
     let windowFrame = self.frame
     self.contentViewController = flutterViewController
     self.setFrame(windowFrame, display: true)
@@ -29,5 +33,11 @@ class MainFlutterWindow: NSWindow {
     }
 
     super.awakeFromNib()
+  }
+
+  // 창은 항상 숨긴 채 시작하고, Dart가 준비된 뒤 보일지 정한다 (--background면 트레이에서만 시작).
+  override public func order(_ place: NSWindow.OrderingMode, relativeTo otherWin: Int) {
+    super.order(place, relativeTo: otherWin)
+    hiddenWindowAtLaunch()
   }
 }

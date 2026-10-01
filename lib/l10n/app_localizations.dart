@@ -613,6 +613,90 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'{days}일 이상 지남'**
   String condOlderThan(int days);
+
+  /// No description provided for @loginItemLabel.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인 시 자동 실행'**
+  String get loginItemLabel;
+
+  /// No description provided for @loginItemFailed.
+  ///
+  /// In ko, this message translates to:
+  /// **'자동 실행 설정을 바꾸지 못했습니다: {error}'**
+  String loginItemFailed(String error);
+
+  /// No description provided for @presetsStart.
+  ///
+  /// In ko, this message translates to:
+  /// **'추천 규칙으로 시작'**
+  String get presetsStart;
+
+  /// No description provided for @presetsTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'추천 규칙'**
+  String get presetsTitle;
+
+  /// No description provided for @presetsIntro.
+  ///
+  /// In ko, this message translates to:
+  /// **'고른 규칙은 Downloads 폴더에 적용됩니다. 이미 있는 파일도 바로 정리되고, 최근 기록에서 되돌릴 수 있습니다.'**
+  String get presetsIntro;
+
+  /// No description provided for @presetsAdd.
+  ///
+  /// In ko, this message translates to:
+  /// **'추가 ({count})'**
+  String presetsAdd(int count);
+
+  /// No description provided for @presetsAlready.
+  ///
+  /// In ko, this message translates to:
+  /// **'이미 있음'**
+  String get presetsAlready;
+
+  /// No description provided for @presetCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'지금 {count}개'**
+  String presetCount(int count);
+
+  /// No description provided for @presetDocuments.
+  ///
+  /// In ko, this message translates to:
+  /// **'문서'**
+  String get presetDocuments;
+
+  /// No description provided for @presetImages.
+  ///
+  /// In ko, this message translates to:
+  /// **'이미지'**
+  String get presetImages;
+
+  /// No description provided for @presetInstallers.
+  ///
+  /// In ko, this message translates to:
+  /// **'설치 파일'**
+  String get presetInstallers;
+
+  /// No description provided for @presetArchives.
+  ///
+  /// In ko, this message translates to:
+  /// **'압축 파일'**
+  String get presetArchives;
+
+  /// No description provided for @presetOldInstallers.
+  ///
+  /// In ko, this message translates to:
+  /// **'30일 지난 설치 파일'**
+  String get presetOldInstallers;
+
+  /// No description provided for @trayLoginItem.
+  ///
+  /// In ko, this message translates to:
+  /// **'로그인 시 자동 실행'**
+  String get trayLoginItem;
 }
 
 class _AppLocalizationsDelegate

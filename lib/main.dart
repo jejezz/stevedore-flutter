@@ -21,12 +21,15 @@ import 'engine/history.dart';
 import 'engine/tidy_engine.dart';
 import 'engine/tidy_service.dart';
 import 'rules/rule_store.dart';
+import 'system/login_item.dart';
 import 'tray/tray_controller.dart';
 import 'ui/home_screen.dart';
 
 final bool _isDesktop = Platform.isMacOS || Platform.isWindows || Platform.isLinux;
 
-Future<void> main() async {
+Future<void> main(List<String> args) async {
+  // 로그인으로 실행됐으면 창 없이 트레이에서만 시작한다.
+  final background = args.contains(backgroundFlag);
   WidgetsFlutterBinding.ensureInitialized();
   registerExtraLicenses();
 
@@ -40,13 +43,16 @@ Future<void> main() async {
       title: AppIdentity.displayName,
     );
     await windowManager.waitUntilReadyToShow(options, () async {
+      if (background) return;
       await windowManager.show();
       await windowManager.focus();
     });
   }
 
   final settings = await AppSettings.load();
-  runApp(App(settings: settings, service: await _startService()));
+  final loginItem = LoginItemController(_isDesktop ? LoginItemBackend.forPlatform() : null);
+  await loginItem.init();
+  runApp(App(settings: settings, service: await _startService(), loginItem: loginItem));
 }
 
 /// 저장된 규칙으로 감시를 시작한다. 규칙이 없으면 감시할 폴더도 없다.
@@ -61,10 +67,11 @@ Future<TidyService> _startService() async {
 }
 
 class App extends StatefulWidget {
-  const App({super.key, required this.settings, required this.service});
+  const App({super.key, required this.settings, required this.service, required this.loginItem});
 
   final AppSettings settings;
   final TidyService service;
+  final LoginItemController loginItem;
 
   @override
   State<App> createState() => _AppState();
@@ -81,6 +88,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     if (_isDesktop) {
       _tray = TrayController(
         settings: widget.settings,
+        loginItem: widget.loginItem,
         onAbout: () async => _showAbout(),
         onTidyNow: () async => _homeKey.currentState?.tidyNow(),
       );
@@ -139,7 +147,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           supportedLocales: AppLocalizations.supportedLocales,
           localeResolutionCallback: AppSettings.resolveLocale,
           builder: (context, child) => AppMenuBar(onAbout: _showAbout, child: child!),
-          home: HomeScreen(key: _homeKey, onAbout: _showAbout, service: widget.service),
+          home: HomeScreen(key: _homeKey, onAbout: _showAbout, service: widget.service, loginItem: widget.loginItem),
         ),
       ),
     );

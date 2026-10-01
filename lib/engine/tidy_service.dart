@@ -59,6 +59,9 @@ class TidyService extends ChangeNotifier {
     return _setRules(list);
   }
 
+  /// 여러 규칙을 한 번에 추가한다 (추천 규칙). 저장과 감시 갱신은 한 번만 한다.
+  Future<void> addRules(List<Rule> rules) => _setRules([..._rules, ...rules]);
+
   Future<void> deleteRule(String id) => _setRules([..._rules.where((r) => r.id != id)]);
 
   Future<void> setRuleEnabled(String id, bool enabled) =>

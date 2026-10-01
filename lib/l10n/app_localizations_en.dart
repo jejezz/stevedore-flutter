@@ -305,4 +305,53 @@ class AppLocalizationsEn extends AppLocalizations {
   String condOlderThan(int days) {
     return '$days days or older';
   }
+
+  @override
+  String get loginItemLabel => 'Launch at login';
+
+  @override
+  String loginItemFailed(String error) {
+    return 'Couldn\'t change the launch-at-login setting: $error';
+  }
+
+  @override
+  String get presetsStart => 'Start with suggested rules';
+
+  @override
+  String get presetsTitle => 'Suggested rules';
+
+  @override
+  String get presetsIntro =>
+      'The rules you pick apply to your Downloads folder. Files already there are tidied right away, and you can undo from Recent activity.';
+
+  @override
+  String presetsAdd(int count) {
+    return 'Add ($count)';
+  }
+
+  @override
+  String get presetsAlready => 'Already added';
+
+  @override
+  String presetCount(int count) {
+    return '$count now';
+  }
+
+  @override
+  String get presetDocuments => 'Documents';
+
+  @override
+  String get presetImages => 'Images';
+
+  @override
+  String get presetInstallers => 'Installers';
+
+  @override
+  String get presetArchives => 'Archives';
+
+  @override
+  String get presetOldInstallers => 'Installers older than 30 days';
+
+  @override
+  String get trayLoginItem => 'Launch at login';
 }

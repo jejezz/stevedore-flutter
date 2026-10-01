@@ -186,5 +186,40 @@
         "type": "int"
       }
     }
-  }
+  },
+  "loginItemLabel": "Launch at login",
+  "loginItemFailed": "Couldn't change the launch-at-login setting: {error}",
+  "@loginItemFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "presetsStart": "Start with suggested rules",
+  "presetsTitle": "Suggested rules",
+  "presetsIntro": "The rules you pick apply to your Downloads folder. Files already there are tidied right away, and you can undo from Recent activity.",
+  "presetsAdd": "Add ({count})",
+  "@presetsAdd": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "presetsAlready": "Already added",
+  "presetCount": "{count} now",
+  "@presetCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "presetDocuments": "Documents",
+  "presetImages": "Images",
+  "presetInstallers": "Installers",
+  "presetArchives": "Archives",
+  "presetOldInstallers": "Installers older than 30 days",
+  "trayLoginItem": "Launch at login"
 }
