@@ -125,10 +125,11 @@ class TidyEngine {
 
   /// 지금 폴더들을 훑어서 할 일을 계획한다. 파일을 건드리지 않는다.
   /// [requireStable]이 true면 아직 안정되지 않은 파일은 [PlanResult.waiting]으로만 센다.
-  Future<PlanResult> plan({required bool requireStable}) async {
+  /// [rules]를 주면 저장된 규칙 대신 그것만으로 계획한다 (규칙 편집기의 미리보기).
+  Future<PlanResult> plan({required bool requireStable, List<Rule>? rules}) async {
     final now = _clock();
     final byFolder = <String, List<Rule>>{};
-    for (final r in _rules.where((r) => r.enabled)) {
+    for (final r in (rules ?? _rules).where((r) => r.enabled)) {
       byFolder.putIfAbsent(_folderOf(r), () => []).add(r);
     }
 

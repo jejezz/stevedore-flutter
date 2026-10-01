@@ -165,4 +165,144 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get watchErrorHint =>
       'Check that the folder exists and that Stevedore is allowed to access files and folders in System Settings › Privacy & Security.';
+
+  @override
+  String get rulesTitle => 'Rules';
+
+  @override
+  String get rulesAdd => 'Add rule';
+
+  @override
+  String get rulesEmpty => 'No rules yet. Add one to start tidying.';
+
+  @override
+  String get rulesOrderHint => 'Rules higher up are applied first.';
+
+  @override
+  String get ruleEdit => 'Edit';
+
+  @override
+  String get ruleDelete => 'Delete';
+
+  @override
+  String get ruleDeleteTitle => 'Delete this rule?';
+
+  @override
+  String ruleDeleteBody(String name) {
+    return 'The rule “$name” will be deleted. Your activity history is kept.';
+  }
+
+  @override
+  String get ruleEditorNewTitle => 'New rule';
+
+  @override
+  String get ruleEditorEditTitle => 'Edit rule';
+
+  @override
+  String get ruleFieldName => 'Rule name';
+
+  @override
+  String get ruleFieldFolder => 'Watched folder';
+
+  @override
+  String get ruleChooseFolder => 'Choose folder';
+
+  @override
+  String get ruleSectionCondition => 'Conditions (all must match)';
+
+  @override
+  String get ruleFieldExtensions => 'Extensions';
+
+  @override
+  String get ruleFieldExtensionsHint => 'pdf, docx, zip';
+
+  @override
+  String get ruleFieldNameContains => 'Name contains';
+
+  @override
+  String get ruleFieldMinSize => 'Min size';
+
+  @override
+  String get ruleFieldMaxSize => 'Max size';
+
+  @override
+  String get ruleFieldOlderThan => 'Age';
+
+  @override
+  String get ruleOlderThanSuffix => 'days or older';
+
+  @override
+  String get ruleSectionAction => 'Action';
+
+  @override
+  String get ruleActionMove => 'Move to folder';
+
+  @override
+  String get ruleActionTrash => 'Move to Trash';
+
+  @override
+  String get ruleFieldDestination => 'Destination folder';
+
+  @override
+  String get ruleTrashNote =>
+      'Files go to the Trash. Nothing is deleted permanently.';
+
+  @override
+  String get ruleSave => 'Save';
+
+  @override
+  String get rulePreview => 'Preview';
+
+  @override
+  String get ruleErrName => 'Enter a rule name';
+
+  @override
+  String get ruleErrFolder => 'Enter a folder to watch';
+
+  @override
+  String get ruleErrCondition => 'Set at least one condition';
+
+  @override
+  String get ruleErrDestination => 'Enter a destination folder';
+
+  @override
+  String get ruleErrSameFolder =>
+      'The destination is the same as the watched folder';
+
+  @override
+  String get ruleErrNumber => 'Enter a number, 0 or more';
+
+  @override
+  String get ruleErrSizeRange => 'Min size is larger than max size';
+
+  @override
+  String get rulePreviewTitle => 'Files matching this rule';
+
+  @override
+  String rulePreviewCount(int count) {
+    return '$count files match right now';
+  }
+
+  @override
+  String get rulePreviewNone => 'No files match right now.';
+
+  @override
+  String condNameContains(String text) {
+    return 'name contains “$text”';
+  }
+
+  @override
+  String condMinSize(String size) {
+    return '$size or larger';
+  }
+
+  @override
+  String condMaxSize(String size) {
+    return '$size or smaller';
+  }
+
+  @override
+  String condOlderThan(int days) {
+    return '$days days or older';
+  }
 }

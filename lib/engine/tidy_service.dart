@@ -47,6 +47,44 @@ class TidyService extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// 규칙을 추가하거나(같은 id가 없을 때) 바꾼다.
+  Future<void> saveRule(Rule rule) {
+    final list = [..._rules];
+    final i = list.indexWhere((r) => r.id == rule.id);
+    if (i < 0) {
+      list.add(rule);
+    } else {
+      list[i] = rule;
+    }
+    return _setRules(list);
+  }
+
+  Future<void> deleteRule(String id) => _setRules([..._rules.where((r) => r.id != id)]);
+
+  Future<void> setRuleEnabled(String id, bool enabled) =>
+      _setRules([for (final r in _rules) r.id == id ? r.copyWith(enabled: enabled) : r]);
+
+  /// 순서가 곧 우선순위다 — 위에 있는 규칙이 먼저 적용된다. [newIndex]는
+  /// `ReorderableListView.onReorderItem`이 주는, 뺀 뒤 기준의 값이다.
+  Future<void> reorderRules(int oldIndex, int newIndex) {
+    final list = [..._rules];
+    list.insert(newIndex, list.removeAt(oldIndex));
+    return _setRules(list);
+  }
+
+  String newRuleId() => DateTime.now().microsecondsSinceEpoch.toString();
+
+  /// 편집 중인 규칙이 지금 어떤 파일에 맞는지. 저장하지 않은 규칙도 볼 수 있다.
+  Future<PlanResult> previewRule(Rule rule) =>
+      engine.plan(requireStable: false, rules: [rule.copyWith(enabled: true)]);
+
+  Future<void> _setRules(List<Rule> rules) async {
+    _rules = List.unmodifiable(rules);
+    await ruleStore.save(_rules);
+    await engine.setRules(_rules);
+    notifyListeners();
+  }
+
   /// "지금 정리"가 보여줄 미리보기. 파일을 건드리지 않는다.
   Future<PlanResult> preview() => engine.plan(requireStable: false);
 

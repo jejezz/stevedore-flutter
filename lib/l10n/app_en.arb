@@ -102,5 +102,89 @@
     }
   },
   "watchErrorTitle": "Couldn't read a folder",
-  "watchErrorHint": "Check that the folder exists and that Stevedore is allowed to access files and folders in System Settings › Privacy & Security."
+  "watchErrorHint": "Check that the folder exists and that Stevedore is allowed to access files and folders in System Settings › Privacy & Security.",
+  "rulesTitle": "Rules",
+  "rulesAdd": "Add rule",
+  "rulesEmpty": "No rules yet. Add one to start tidying.",
+  "rulesOrderHint": "Rules higher up are applied first.",
+  "ruleEdit": "Edit",
+  "ruleDelete": "Delete",
+  "ruleDeleteTitle": "Delete this rule?",
+  "ruleDeleteBody": "The rule “{name}” will be deleted. Your activity history is kept.",
+  "@ruleDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleEditorNewTitle": "New rule",
+  "ruleEditorEditTitle": "Edit rule",
+  "ruleFieldName": "Rule name",
+  "ruleFieldFolder": "Watched folder",
+  "ruleChooseFolder": "Choose folder",
+  "ruleSectionCondition": "Conditions (all must match)",
+  "ruleFieldExtensions": "Extensions",
+  "ruleFieldExtensionsHint": "pdf, docx, zip",
+  "ruleFieldNameContains": "Name contains",
+  "ruleFieldMinSize": "Min size",
+  "ruleFieldMaxSize": "Max size",
+  "ruleFieldOlderThan": "Age",
+  "ruleOlderThanSuffix": "days or older",
+  "ruleSectionAction": "Action",
+  "ruleActionMove": "Move to folder",
+  "ruleActionTrash": "Move to Trash",
+  "ruleFieldDestination": "Destination folder",
+  "ruleTrashNote": "Files go to the Trash. Nothing is deleted permanently.",
+  "ruleSave": "Save",
+  "rulePreview": "Preview",
+  "ruleErrName": "Enter a rule name",
+  "ruleErrFolder": "Enter a folder to watch",
+  "ruleErrCondition": "Set at least one condition",
+  "ruleErrDestination": "Enter a destination folder",
+  "ruleErrSameFolder": "The destination is the same as the watched folder",
+  "ruleErrNumber": "Enter a number, 0 or more",
+  "ruleErrSizeRange": "Min size is larger than max size",
+  "rulePreviewTitle": "Files matching this rule",
+  "rulePreviewCount": "{count} files match right now",
+  "@rulePreviewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rulePreviewNone": "No files match right now.",
+  "condNameContains": "name contains “{text}”",
+  "@condNameContains": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "condMinSize": "{size} or larger",
+  "@condMinSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "condMaxSize": "{size} or smaller",
+  "@condMaxSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "condOlderThan": "{days} days or older",
+  "@condOlderThan": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  }
 }

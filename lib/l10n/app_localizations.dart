@@ -361,6 +361,258 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'폴더가 있는지, 시스템 설정의 개인정보 보호 및 보안에서 Stevedore의 파일 및 폴더 접근이 허용돼 있는지 확인하세요.'**
   String get watchErrorHint;
+
+  /// No description provided for @rulesTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'규칙'**
+  String get rulesTitle;
+
+  /// No description provided for @rulesAdd.
+  ///
+  /// In ko, this message translates to:
+  /// **'규칙 추가'**
+  String get rulesAdd;
+
+  /// No description provided for @rulesEmpty.
+  ///
+  /// In ko, this message translates to:
+  /// **'규칙이 없습니다. 규칙을 추가해 정리를 시작하세요.'**
+  String get rulesEmpty;
+
+  /// No description provided for @rulesOrderHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'위에 있는 규칙이 먼저 적용됩니다.'**
+  String get rulesOrderHint;
+
+  /// No description provided for @ruleEdit.
+  ///
+  /// In ko, this message translates to:
+  /// **'수정'**
+  String get ruleEdit;
+
+  /// No description provided for @ruleDelete.
+  ///
+  /// In ko, this message translates to:
+  /// **'삭제'**
+  String get ruleDelete;
+
+  /// No description provided for @ruleDeleteTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'규칙을 삭제할까요?'**
+  String get ruleDeleteTitle;
+
+  /// No description provided for @ruleDeleteBody.
+  ///
+  /// In ko, this message translates to:
+  /// **'“{name}” 규칙이 삭제됩니다. 정리 기록은 남습니다.'**
+  String ruleDeleteBody(String name);
+
+  /// No description provided for @ruleEditorNewTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'새 규칙'**
+  String get ruleEditorNewTitle;
+
+  /// No description provided for @ruleEditorEditTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'규칙 수정'**
+  String get ruleEditorEditTitle;
+
+  /// No description provided for @ruleFieldName.
+  ///
+  /// In ko, this message translates to:
+  /// **'규칙 이름'**
+  String get ruleFieldName;
+
+  /// No description provided for @ruleFieldFolder.
+  ///
+  /// In ko, this message translates to:
+  /// **'감시 폴더'**
+  String get ruleFieldFolder;
+
+  /// No description provided for @ruleChooseFolder.
+  ///
+  /// In ko, this message translates to:
+  /// **'폴더 선택'**
+  String get ruleChooseFolder;
+
+  /// No description provided for @ruleSectionCondition.
+  ///
+  /// In ko, this message translates to:
+  /// **'조건 (모두 만족해야 합니다)'**
+  String get ruleSectionCondition;
+
+  /// No description provided for @ruleFieldExtensions.
+  ///
+  /// In ko, this message translates to:
+  /// **'확장자'**
+  String get ruleFieldExtensions;
+
+  /// No description provided for @ruleFieldExtensionsHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'pdf, docx, zip'**
+  String get ruleFieldExtensionsHint;
+
+  /// No description provided for @ruleFieldNameContains.
+  ///
+  /// In ko, this message translates to:
+  /// **'이름에 포함'**
+  String get ruleFieldNameContains;
+
+  /// No description provided for @ruleFieldMinSize.
+  ///
+  /// In ko, this message translates to:
+  /// **'최소 크기'**
+  String get ruleFieldMinSize;
+
+  /// No description provided for @ruleFieldMaxSize.
+  ///
+  /// In ko, this message translates to:
+  /// **'최대 크기'**
+  String get ruleFieldMaxSize;
+
+  /// No description provided for @ruleFieldOlderThan.
+  ///
+  /// In ko, this message translates to:
+  /// **'경과 일수'**
+  String get ruleFieldOlderThan;
+
+  /// No description provided for @ruleOlderThanSuffix.
+  ///
+  /// In ko, this message translates to:
+  /// **'일 이상 지난 파일'**
+  String get ruleOlderThanSuffix;
+
+  /// No description provided for @ruleSectionAction.
+  ///
+  /// In ko, this message translates to:
+  /// **'동작'**
+  String get ruleSectionAction;
+
+  /// No description provided for @ruleActionMove.
+  ///
+  /// In ko, this message translates to:
+  /// **'폴더로 이동'**
+  String get ruleActionMove;
+
+  /// No description provided for @ruleActionTrash.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴지통으로'**
+  String get ruleActionTrash;
+
+  /// No description provided for @ruleFieldDestination.
+  ///
+  /// In ko, this message translates to:
+  /// **'이동할 폴더'**
+  String get ruleFieldDestination;
+
+  /// No description provided for @ruleTrashNote.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴지통으로 보냅니다. 영구 삭제하지 않습니다.'**
+  String get ruleTrashNote;
+
+  /// No description provided for @ruleSave.
+  ///
+  /// In ko, this message translates to:
+  /// **'저장'**
+  String get ruleSave;
+
+  /// No description provided for @rulePreview.
+  ///
+  /// In ko, this message translates to:
+  /// **'미리보기'**
+  String get rulePreview;
+
+  /// No description provided for @ruleErrName.
+  ///
+  /// In ko, this message translates to:
+  /// **'규칙 이름을 입력하세요'**
+  String get ruleErrName;
+
+  /// No description provided for @ruleErrFolder.
+  ///
+  /// In ko, this message translates to:
+  /// **'감시 폴더를 입력하세요'**
+  String get ruleErrFolder;
+
+  /// No description provided for @ruleErrCondition.
+  ///
+  /// In ko, this message translates to:
+  /// **'조건을 하나 이상 지정하세요'**
+  String get ruleErrCondition;
+
+  /// No description provided for @ruleErrDestination.
+  ///
+  /// In ko, this message translates to:
+  /// **'이동할 폴더를 입력하세요'**
+  String get ruleErrDestination;
+
+  /// No description provided for @ruleErrSameFolder.
+  ///
+  /// In ko, this message translates to:
+  /// **'이동할 폴더가 감시 폴더와 같습니다'**
+  String get ruleErrSameFolder;
+
+  /// No description provided for @ruleErrNumber.
+  ///
+  /// In ko, this message translates to:
+  /// **'0 이상의 숫자를 입력하세요'**
+  String get ruleErrNumber;
+
+  /// No description provided for @ruleErrSizeRange.
+  ///
+  /// In ko, this message translates to:
+  /// **'최소 크기가 최대 크기보다 큽니다'**
+  String get ruleErrSizeRange;
+
+  /// No description provided for @rulePreviewTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'이 규칙에 맞는 파일'**
+  String get rulePreviewTitle;
+
+  /// No description provided for @rulePreviewCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'지금 {count}개 파일이 맞습니다'**
+  String rulePreviewCount(int count);
+
+  /// No description provided for @rulePreviewNone.
+  ///
+  /// In ko, this message translates to:
+  /// **'지금 맞는 파일이 없습니다.'**
+  String get rulePreviewNone;
+
+  /// No description provided for @condNameContains.
+  ///
+  /// In ko, this message translates to:
+  /// **'이름에 “{text}” 포함'**
+  String condNameContains(String text);
+
+  /// No description provided for @condMinSize.
+  ///
+  /// In ko, this message translates to:
+  /// **'{size} 이상'**
+  String condMinSize(String size);
+
+  /// No description provided for @condMaxSize.
+  ///
+  /// In ko, this message translates to:
+  /// **'{size} 이하'**
+  String condMaxSize(String size);
+
+  /// No description provided for @condOlderThan.
+  ///
+  /// In ko, this message translates to:
+  /// **'{days}일 이상 지남'**
+  String condOlderThan(int days);
 }
 
 class _AppLocalizationsDelegate

@@ -119,5 +119,89 @@
     }
   },
   "watchErrorTitle": "폴더를 읽지 못했습니다",
-  "watchErrorHint": "폴더가 있는지, 시스템 설정의 개인정보 보호 및 보안에서 Stevedore의 파일 및 폴더 접근이 허용돼 있는지 확인하세요."
+  "watchErrorHint": "폴더가 있는지, 시스템 설정의 개인정보 보호 및 보안에서 Stevedore의 파일 및 폴더 접근이 허용돼 있는지 확인하세요.",
+  "rulesTitle": "규칙",
+  "rulesAdd": "규칙 추가",
+  "rulesEmpty": "규칙이 없습니다. 규칙을 추가해 정리를 시작하세요.",
+  "rulesOrderHint": "위에 있는 규칙이 먼저 적용됩니다.",
+  "ruleEdit": "수정",
+  "ruleDelete": "삭제",
+  "ruleDeleteTitle": "규칙을 삭제할까요?",
+  "ruleDeleteBody": "“{name}” 규칙이 삭제됩니다. 정리 기록은 남습니다.",
+  "@ruleDeleteBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleEditorNewTitle": "새 규칙",
+  "ruleEditorEditTitle": "규칙 수정",
+  "ruleFieldName": "규칙 이름",
+  "ruleFieldFolder": "감시 폴더",
+  "ruleChooseFolder": "폴더 선택",
+  "ruleSectionCondition": "조건 (모두 만족해야 합니다)",
+  "ruleFieldExtensions": "확장자",
+  "ruleFieldExtensionsHint": "pdf, docx, zip",
+  "ruleFieldNameContains": "이름에 포함",
+  "ruleFieldMinSize": "최소 크기",
+  "ruleFieldMaxSize": "최대 크기",
+  "ruleFieldOlderThan": "경과 일수",
+  "ruleOlderThanSuffix": "일 이상 지난 파일",
+  "ruleSectionAction": "동작",
+  "ruleActionMove": "폴더로 이동",
+  "ruleActionTrash": "휴지통으로",
+  "ruleFieldDestination": "이동할 폴더",
+  "ruleTrashNote": "휴지통으로 보냅니다. 영구 삭제하지 않습니다.",
+  "ruleSave": "저장",
+  "rulePreview": "미리보기",
+  "ruleErrName": "규칙 이름을 입력하세요",
+  "ruleErrFolder": "감시 폴더를 입력하세요",
+  "ruleErrCondition": "조건을 하나 이상 지정하세요",
+  "ruleErrDestination": "이동할 폴더를 입력하세요",
+  "ruleErrSameFolder": "이동할 폴더가 감시 폴더와 같습니다",
+  "ruleErrNumber": "0 이상의 숫자를 입력하세요",
+  "ruleErrSizeRange": "최소 크기가 최대 크기보다 큽니다",
+  "rulePreviewTitle": "이 규칙에 맞는 파일",
+  "rulePreviewCount": "지금 {count}개 파일이 맞습니다",
+  "@rulePreviewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rulePreviewNone": "지금 맞는 파일이 없습니다.",
+  "condNameContains": "이름에 “{text}” 포함",
+  "@condNameContains": {
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "condMinSize": "{size} 이상",
+  "@condMinSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "condMaxSize": "{size} 이하",
+  "@condMaxSize": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "condOlderThan": "{days}일 이상 지남",
+  "@condOlderThan": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -16,3 +16,13 @@ String expandPath(String path, {Map<String, String>? env}) {
   }
   return p;
 }
+
+/// 홈 폴더 아래 경로를 `~/…`로 줄여 보여준다 (규칙에 저장되는 형식).
+String abbreviateHome(String path, {Map<String, String>? env}) {
+  final e = env ?? Platform.environment;
+  final home = e['HOME'] ?? e['USERPROFILE'] ?? '';
+  if (home.isEmpty) return path;
+  if (path == home) return '~';
+  if (path.startsWith('$home/') || path.startsWith('$home\\')) return '~${path.substring(home.length)}';
+  return path;
+}

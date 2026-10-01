@@ -163,4 +163,142 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get watchErrorHint =>
       '폴더가 있는지, 시스템 설정의 개인정보 보호 및 보안에서 Stevedore의 파일 및 폴더 접근이 허용돼 있는지 확인하세요.';
+
+  @override
+  String get rulesTitle => '규칙';
+
+  @override
+  String get rulesAdd => '규칙 추가';
+
+  @override
+  String get rulesEmpty => '규칙이 없습니다. 규칙을 추가해 정리를 시작하세요.';
+
+  @override
+  String get rulesOrderHint => '위에 있는 규칙이 먼저 적용됩니다.';
+
+  @override
+  String get ruleEdit => '수정';
+
+  @override
+  String get ruleDelete => '삭제';
+
+  @override
+  String get ruleDeleteTitle => '규칙을 삭제할까요?';
+
+  @override
+  String ruleDeleteBody(String name) {
+    return '“$name” 규칙이 삭제됩니다. 정리 기록은 남습니다.';
+  }
+
+  @override
+  String get ruleEditorNewTitle => '새 규칙';
+
+  @override
+  String get ruleEditorEditTitle => '규칙 수정';
+
+  @override
+  String get ruleFieldName => '규칙 이름';
+
+  @override
+  String get ruleFieldFolder => '감시 폴더';
+
+  @override
+  String get ruleChooseFolder => '폴더 선택';
+
+  @override
+  String get ruleSectionCondition => '조건 (모두 만족해야 합니다)';
+
+  @override
+  String get ruleFieldExtensions => '확장자';
+
+  @override
+  String get ruleFieldExtensionsHint => 'pdf, docx, zip';
+
+  @override
+  String get ruleFieldNameContains => '이름에 포함';
+
+  @override
+  String get ruleFieldMinSize => '최소 크기';
+
+  @override
+  String get ruleFieldMaxSize => '최대 크기';
+
+  @override
+  String get ruleFieldOlderThan => '경과 일수';
+
+  @override
+  String get ruleOlderThanSuffix => '일 이상 지난 파일';
+
+  @override
+  String get ruleSectionAction => '동작';
+
+  @override
+  String get ruleActionMove => '폴더로 이동';
+
+  @override
+  String get ruleActionTrash => '휴지통으로';
+
+  @override
+  String get ruleFieldDestination => '이동할 폴더';
+
+  @override
+  String get ruleTrashNote => '휴지통으로 보냅니다. 영구 삭제하지 않습니다.';
+
+  @override
+  String get ruleSave => '저장';
+
+  @override
+  String get rulePreview => '미리보기';
+
+  @override
+  String get ruleErrName => '규칙 이름을 입력하세요';
+
+  @override
+  String get ruleErrFolder => '감시 폴더를 입력하세요';
+
+  @override
+  String get ruleErrCondition => '조건을 하나 이상 지정하세요';
+
+  @override
+  String get ruleErrDestination => '이동할 폴더를 입력하세요';
+
+  @override
+  String get ruleErrSameFolder => '이동할 폴더가 감시 폴더와 같습니다';
+
+  @override
+  String get ruleErrNumber => '0 이상의 숫자를 입력하세요';
+
+  @override
+  String get ruleErrSizeRange => '최소 크기가 최대 크기보다 큽니다';
+
+  @override
+  String get rulePreviewTitle => '이 규칙에 맞는 파일';
+
+  @override
+  String rulePreviewCount(int count) {
+    return '지금 $count개 파일이 맞습니다';
+  }
+
+  @override
+  String get rulePreviewNone => '지금 맞는 파일이 없습니다.';
+
+  @override
+  String condNameContains(String text) {
+    return '이름에 “$text” 포함';
+  }
+
+  @override
+  String condMinSize(String size) {
+    return '$size 이상';
+  }
+
+  @override
+  String condMaxSize(String size) {
+    return '$size 이하';
+  }
+
+  @override
+  String condOlderThan(int days) {
+    return '$days일 이상 지남';
+  }
 }

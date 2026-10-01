@@ -9,6 +9,9 @@ import '../settings/settings_menus.dart';
 import '../theme/app_theme.dart';
 import 'history_list.dart';
 import 'preview_dialog.dart';
+import 'rule_editor.dart';
+import '../rules/rule.dart';
+import 'rules_list.dart';
 
 /// 메인 화면: 규칙 요약 + "지금 정리" + 최근 기록. 규칙도 기록도 없으면 빈 상태 (ui-ux.md §6).
 class HomeScreen extends StatefulWidget {
@@ -29,6 +32,32 @@ class HomeScreenState extends State<HomeScreen> {
     final l10n = AppLocalizations.of(context);
     final failed = results.where((r) => !r.succeeded).length;
     _toast(failed == 0 ? l10n.tidyDone(results.length) : l10n.tidyDonePartial(results.length - failed, failed));
+  }
+
+  Future<void> _editRule([Rule? rule]) async {
+    final saved = await showRuleEditor(context, widget.service, rule: rule);
+    if (saved != null) await widget.service.saveRule(saved);
+  }
+
+  Future<void> _deleteRule(Rule rule) async {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.ruleDeleteTitle),
+        content: Text(l10n.ruleDeleteBody(rule.name)),
+        actions: [
+          TextButton(autofocus: true, onPressed: () => Navigator.pop(context, false), child: Text(l10n.commonCancel)),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: theme.colorScheme.error, foregroundColor: theme.colorScheme.onError),
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l10n.ruleDelete),
+          ),
+        ],
+      ),
+    );
+    if (ok == true) await widget.service.deleteRule(rule.id);
   }
 
   Future<void> _undo(HistoryEntry entry) async {
@@ -93,12 +122,20 @@ class HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: AppSpacing.lg),
           Text(l10n.homeEmptyTitle, style: theme.textTheme.titleMedium),
           const SizedBox(height: AppSpacing.lg),
-          // 규칙 편집기가 들어오면 주 행동을 연결한다. 그 전까지는 비활성.
-          FilledButton(onPressed: null, child: Text(l10n.homeEmptyAction)),
+          FilledButton(onPressed: _editRule, child: Text(l10n.homeEmptyAction)),
         ],
       ),
     );
   }
+
+  Widget _section(String title, Widget body) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: Theme.of(context).textTheme.titleSmall),
+          const SizedBox(height: AppSpacing.sm),
+          Expanded(child: body),
+        ],
+      );
 
   Widget _content(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -125,6 +162,12 @@ class HomeScreenState extends State<HomeScreen> {
                 child: Text(l10n.homeRulesSummary(service.rules.where((r) => r.enabled).length),
                     style: theme.textTheme.titleMedium),
               ),
+              OutlinedButton.icon(
+                onPressed: _editRule,
+                icon: const Icon(Icons.add_rounded, size: 18),
+                label: Text(l10n.rulesAdd),
+              ),
+              const SizedBox(width: AppSpacing.sm),
               FilledButton.icon(
                 onPressed: tidyNow,
                 icon: const Icon(Icons.cleaning_services_rounded, size: 18),
@@ -133,9 +176,31 @@ class HomeScreenState extends State<HomeScreen> {
             ],
           ),
           const SizedBox(height: AppSpacing.xl),
-          Text(l10n.historyTitle, style: theme.textTheme.titleSmall),
-          const SizedBox(height: AppSpacing.sm),
-          Expanded(child: HistoryList(entries: service.history, onUndo: _undo)),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: _section(
+                    l10n.rulesTitle,
+                    RulesList(
+                      rules: service.rules,
+                      onToggle: (r, v) => service.setRuleEnabled(r.id, v),
+                      onEdit: _editRule,
+                      onDelete: _deleteRule,
+                      onReorder: service.reorderRules,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.xl),
+                Expanded(
+                  flex: 6,
+                  child: _section(l10n.historyTitle, HistoryList(entries: service.history, onUndo: _undo)),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
