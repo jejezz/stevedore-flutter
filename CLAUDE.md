@@ -11,4 +11,4 @@ https://github.com/jejezz/application-release-templates/tree/main/conventions
 - 표시 이름 `Stevedore`, 패키지 `stevedore`, 식별자 `art.zoomon.stevedore`
 - 삭제는 항상 휴지통으로 보낸다. 규칙 저장 전 dry-run 미리보기와 이동 이력(되돌리기)을 제공한다.
 - 다운로드 중인 임시 파일(`.crdownload`, `.download`, `.part`)은 건드리지 않고, 크기가 안정된 뒤 처리한다.
-- 아이콘 글리프(`assets/icon/source_glyph.png`)는 임시 그림이다. 교체 후 `python3 tool/icon/generate_icons.py`.
+- 아이콘 글리프는 Icons8 crane (`assets/icon/source_glyph.svg`). 교체 후 `python3 tool/icon/generate_icons.py`, 트레이 아이콘(`assets/tray/`)도 함께 갱신.
