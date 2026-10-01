@@ -11,8 +11,10 @@ import 'rule_formatting.dart';
 
 /// 규칙을 새로 만들거나([rule]이 null) 고친다. 저장하면 새 [Rule]을 돌려주고,
 /// 저장은 부른 쪽이 한다. 취소하면 null.
-Future<Rule?> showRuleEditor(BuildContext context, TidyService service, {Rule? rule}) =>
-    showDialog<Rule>(context: context, builder: (_) => RuleEditorDialog(service: service, rule: rule));
+Future<Rule?> showRuleEditor(BuildContext context, TidyService service, {Rule? rule}) => showDialog<Rule>(
+  context: context,
+  builder: (_) => RuleEditorDialog(service: service, rule: rule),
+);
 
 const _sizeUnits = [('KB', 1024), ('MB', 1024 * 1024), ('GB', 1024 * 1024 * 1024)];
 
@@ -67,7 +69,8 @@ class _RuleEditorDialogState extends State<RuleEditorDialog> {
     if (folder.isEmpty) return fail(l10n.ruleErrFolder);
 
     final extensions = {
-      for (final e in _extensions.text.split(RegExp(r'[,\s]+'))) if (RuleCondition.normalizeExtension(e).isNotEmpty) RuleCondition.normalizeExtension(e),
+      for (final e in _extensions.text.split(RegExp(r'[,\s]+')))
+        if (RuleCondition.normalizeExtension(e).isNotEmpty) RuleCondition.normalizeExtension(e),
     }.toList();
     final olderText = _olderThan.text.trim();
     final olderThan = olderText.isEmpty ? null : int.tryParse(olderText);
@@ -139,8 +142,12 @@ class _RuleEditorDialogState extends State<RuleEditorDialog> {
                             ListTile(
                               dense: true,
                               contentPadding: EdgeInsets.zero,
-                              title: Text(a.facts.name,
-                                  maxLines: 1, overflow: TextOverflow.ellipsis, style: AppFonts.userContent),
+                              title: Text(
+                                a.facts.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppFonts.userContent,
+                              ),
                               trailing: Text(formatBytes(a.facts.sizeBytes)),
                             ),
                         ],
@@ -180,71 +187,91 @@ class _RuleEditorDialogState extends State<RuleEditorDialog> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     const gap = SizedBox(height: AppSpacing.md);
+    // 대화상자 배경(surfaceHi)과 같은 색이라 입력칸이 묻히지 않도록 한 단계 다른 색으로 채운다.
+    final fieldTheme = theme.copyWith(
+      inputDecorationTheme: theme.inputDecorationTheme.copyWith(fillColor: theme.colorScheme.surface, isDense: true),
+    );
     return AlertDialog(
       title: Text(widget.rule == null ? l10n.ruleEditorNewTitle : l10n.ruleEditorEditTitle),
       scrollable: true,
-      content: SizedBox(
-        width: 520,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _name,
-              autofocus: widget.rule == null,
-              decoration: InputDecoration(labelText: l10n.ruleFieldName),
-              style: AppFonts.userContent,
-            ),
-            gap,
-            _folderField(_folder, l10n.ruleFieldFolder),
-            const SizedBox(height: AppSpacing.xl),
-            Text(l10n.ruleSectionCondition, style: theme.textTheme.titleSmall),
-            gap,
-            TextField(
-              controller: _extensions,
-              decoration: InputDecoration(labelText: l10n.ruleFieldExtensions, hintText: l10n.ruleFieldExtensionsHint),
-            ),
-            gap,
-            TextField(
-              controller: _nameContains,
-              decoration: InputDecoration(labelText: l10n.ruleFieldNameContains),
-              style: AppFonts.userContent,
-            ),
-            gap,
-            Row(children: [
-              Expanded(child: _minSize.build(context, l10n.ruleFieldMinSize, () => setState(() {}))),
-              const SizedBox(width: AppSpacing.md),
-              Expanded(child: _maxSize.build(context, l10n.ruleFieldMaxSize, () => setState(() {}))),
-            ]),
-            gap,
-            TextField(
-              controller: _olderThan,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: InputDecoration(labelText: l10n.ruleFieldOlderThan, suffixText: l10n.ruleOlderThanSuffix),
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            Text(l10n.ruleSectionAction, style: theme.textTheme.titleSmall),
-            gap,
-            SegmentedButton<bool>(
-              showSelectedIcon: false,
-              segments: [
-                ButtonSegment(value: false, label: Text(l10n.ruleActionMove)),
-                ButtonSegment(value: true, label: Text(l10n.ruleActionTrash)),
-              ],
-              selected: {_trash},
-              onSelectionChanged: (s) => setState(() => _trash = s.first),
-            ),
-            gap,
-            if (_trash)
-              Text(l10n.ruleTrashNote, style: theme.textTheme.bodySmall)
-            else
-              _folderField(_destination, l10n.ruleFieldDestination),
-            if (_error != null) ...[
+      content: Theme(
+        data: fieldTheme,
+        child: SizedBox(
+          width: 600,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _name,
+                autofocus: widget.rule == null,
+                decoration: InputDecoration(labelText: l10n.ruleFieldName),
+                style: AppFonts.userContent,
+              ),
+              gap,
+              _folderField(_folder, l10n.ruleFieldFolder),
               const SizedBox(height: AppSpacing.lg),
-              Text(_error!, style: TextStyle(color: theme.colorScheme.error)),
+              Text(l10n.ruleSectionCondition, style: theme.textTheme.titleSmall),
+              gap,
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _extensions,
+                      decoration: InputDecoration(
+                        labelText: l10n.ruleFieldExtensions,
+                        hintText: l10n.ruleFieldExtensionsHint,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: TextField(
+                      controller: _nameContains,
+                      decoration: InputDecoration(labelText: l10n.ruleFieldNameContains),
+                      style: AppFonts.userContent,
+                    ),
+                  ),
+                ],
+              ),
+              gap,
+              Row(
+                children: [
+                  Expanded(child: _minSize.build(context, l10n.ruleFieldMinSize, () => setState(() {}))),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(child: _maxSize.build(context, l10n.ruleFieldMaxSize, () => setState(() {}))),
+                ],
+              ),
+              gap,
+              TextField(
+                controller: _olderThan,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(labelText: l10n.ruleFieldOlderThan, suffixText: l10n.ruleOlderThanSuffix),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Text(l10n.ruleSectionAction, style: theme.textTheme.titleSmall),
+              gap,
+              SegmentedButton<bool>(
+                showSelectedIcon: false,
+                segments: [
+                  ButtonSegment(value: false, label: Text(l10n.ruleActionMove)),
+                  ButtonSegment(value: true, label: Text(l10n.ruleActionTrash)),
+                ],
+                selected: {_trash},
+                onSelectionChanged: (s) => setState(() => _trash = s.first),
+              ),
+              gap,
+              if (_trash)
+                Text(l10n.ruleTrashNote, style: theme.textTheme.bodySmall)
+              else
+                _folderField(_destination, l10n.ruleFieldDestination),
+              if (_error != null) ...[
+                const SizedBox(height: AppSpacing.lg),
+                Text(_error!, style: TextStyle(color: theme.colorScheme.error)),
+              ],
             ],
-          ],
+          ),
         ),
       ),
       actions: [
@@ -293,25 +320,25 @@ class _SizeField {
   }
 
   Widget build(BuildContext context, String label, VoidCallback onChanged) => Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-              decoration: InputDecoration(labelText: label),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          DropdownButton<int>(
-            value: _unit,
-            underline: const SizedBox.shrink(),
-            items: [for (var i = 0; i < _sizeUnits.length; i++) DropdownMenuItem(value: i, child: Text(_sizeUnits[i].$1))],
-            onChanged: (v) {
-              _unit = v ?? _unit;
-              onChanged();
-            },
-          ),
-        ],
-      );
+    children: [
+      Expanded(
+        child: TextField(
+          controller: controller,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+          decoration: InputDecoration(labelText: label),
+        ),
+      ),
+      const SizedBox(width: AppSpacing.sm),
+      DropdownButton<int>(
+        value: _unit,
+        underline: const SizedBox.shrink(),
+        items: [for (var i = 0; i < _sizeUnits.length; i++) DropdownMenuItem(value: i, child: Text(_sizeUnits[i].$1))],
+        onChanged: (v) {
+          _unit = v ?? _unit;
+          onChanged();
+        },
+      ),
+    ],
+  );
 }

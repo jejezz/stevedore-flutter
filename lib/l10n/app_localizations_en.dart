@@ -120,7 +120,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get actionTrash => 'To Trash';
+  String get actionTrash => '→ Trash';
 
   @override
   String get historyTitle => 'Recent activity';

@@ -287,7 +287,7 @@ abstract class AppLocalizations {
   /// No description provided for @actionTrash.
   ///
   /// In ko, this message translates to:
-  /// **'휴지통으로'**
+  /// **'→ 휴지통'**
   String get actionTrash;
 
   /// No description provided for @historyTitle.

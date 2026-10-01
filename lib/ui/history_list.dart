@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../engine/history.dart';
+import '../engine/paths.dart';
 import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 
@@ -29,7 +30,7 @@ class HistoryList extends StatelessWidget {
             ? '${l10n.historyFailed}: ${e.error}'
             : e.kind == HistoryKind.trash
                 ? l10n.actionTrash
-                : l10n.actionMoveTo(_parentOf(e.resultPath ?? ''));
+                : l10n.actionMoveTo(abbreviateHome(_parentOf(e.resultPath ?? '')));
         return ListTile(
           dense: true,
           leading: Icon(

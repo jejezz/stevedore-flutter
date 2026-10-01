@@ -118,7 +118,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get actionTrash => '휴지통으로';
+  String get actionTrash => '→ 휴지통';
 
   @override
   String get historyTitle => '최근 기록';

@@ -83,7 +83,7 @@
       }
     }
   },
-  "actionTrash": "휴지통으로",
+  "actionTrash": "→ 휴지통",
   "historyTitle": "최근 기록",
   "historyEmpty": "아직 정리한 파일이 없습니다.",
   "historyUndo": "되돌리기",
