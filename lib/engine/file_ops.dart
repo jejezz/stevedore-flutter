@@ -8,8 +8,9 @@ import 'paths.dart';
 /// 파일을 실제로 옮기고 휴지통에 보내는 부분. 엔진은 이 인터페이스만 안다.
 abstract class FileOps {
   /// [src]를 [destDir]로 옮기고 최종 경로를 돌려준다. 같은 이름이 있으면
-  /// `이름 (1).확장자`처럼 번호를 붙여 덮어쓰지 않는다.
-  Future<String> move(String src, String destDir);
+  /// `이름 (1).확장자`처럼 번호를 붙여 덮어쓰지 않는다. [asName]을 주면 그 이름으로
+  /// 옮긴다 (되돌리기에서 원래 이름을 되찾을 때).
+  Future<String> move(String src, String destDir, {String? asName});
 
   /// 휴지통으로 보낸다. 휴지통 안의 경로를 알 수 있으면 돌려준다 (되돌리기용).
   Future<String?> trash(String path);
@@ -22,10 +23,10 @@ class SystemFileOps implements FileOps {
   final Map<String, String>? env;
 
   @override
-  Future<String> move(String src, String destDir) async {
+  Future<String> move(String src, String destDir, {String? asName}) async {
     final dir = expandPath(destDir, env: env);
     await Directory(dir).create(recursive: true);
-    final target = await uniquePath(dir, p.basename(src));
+    final target = await uniquePath(dir, asName ?? p.basename(src));
     try {
       await File(src).rename(target);
     } on FileSystemException catch (e) {

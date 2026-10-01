@@ -73,4 +73,94 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get trayQuit => '종료';
+
+  @override
+  String get commonCancel => '취소';
+
+  @override
+  String get commonCopy => '복사';
+
+  @override
+  String get tidyNow => '지금 정리';
+
+  @override
+  String homeRulesSummary(int count) {
+    return '규칙 $count개 · 감시 중';
+  }
+
+  @override
+  String get previewTitle => '정리 미리보기';
+
+  @override
+  String get previewNoRules => '켜져 있는 규칙이 없습니다. 규칙을 추가하면 여기서 결과를 미리 볼 수 있습니다.';
+
+  @override
+  String get previewNothing => '지금 정리할 파일이 없습니다.';
+
+  @override
+  String previewWaiting(int count) {
+    return '$count개 파일은 받는 중이거나 방금 바뀌어서 이번에는 건너뜁니다.';
+  }
+
+  @override
+  String previewSummary(int count) {
+    return '$count개 파일을 정리합니다';
+  }
+
+  @override
+  String previewRun(int count) {
+    return '정리 실행 ($count)';
+  }
+
+  @override
+  String actionMoveTo(String folder) {
+    return '→ $folder';
+  }
+
+  @override
+  String get actionTrash => '휴지통으로';
+
+  @override
+  String get historyTitle => '최근 기록';
+
+  @override
+  String get historyEmpty => '아직 정리한 파일이 없습니다.';
+
+  @override
+  String get historyUndo => '되돌리기';
+
+  @override
+  String get historyUndone => '되돌림';
+
+  @override
+  String get historyFailed => '실패';
+
+  @override
+  String get historyUndoUnavailable =>
+      '휴지통 위치를 알 수 없어 되돌릴 수 없습니다. 휴지통에서 직접 복원해 주세요.';
+
+  @override
+  String tidyDone(int count) {
+    return '$count개 파일을 정리했습니다';
+  }
+
+  @override
+  String tidyDonePartial(int done, int failed) {
+    return '$done개 정리, $failed개 실패';
+  }
+
+  @override
+  String get undoDone => '원래 위치로 되돌렸습니다';
+
+  @override
+  String undoFailed(String error) {
+    return '되돌리지 못했습니다: $error';
+  }
+
+  @override
+  String get watchErrorTitle => '폴더를 읽지 못했습니다';
+
+  @override
+  String get watchErrorHint =>
+      '폴더가 있는지, 시스템 설정의 개인정보 보호 및 보안에서 Stevedore의 파일 및 폴더 접근이 허용돼 있는지 확인하세요.';
 }

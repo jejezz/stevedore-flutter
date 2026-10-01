@@ -12,7 +12,8 @@ class _FakeOps implements FileOps {
   final trashed = <String>[];
 
   @override
-  Future<String> move(String src, String destDir) => SystemFileOps().move(src, destDir);
+  Future<String> move(String src, String destDir, {String? asName}) =>
+      SystemFileOps().move(src, destDir, asName: asName);
 
   @override
   Future<String?> trash(String path) async {

@@ -74,4 +74,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trayQuit => 'Quit';
+
+  @override
+  String get commonCancel => 'Cancel';
+
+  @override
+  String get commonCopy => 'Copy';
+
+  @override
+  String get tidyNow => 'Tidy now';
+
+  @override
+  String homeRulesSummary(int count) {
+    return '$count rules · watching';
+  }
+
+  @override
+  String get previewTitle => 'Tidy preview';
+
+  @override
+  String get previewNoRules =>
+      'No rules are turned on. Add a rule to preview what it would do.';
+
+  @override
+  String get previewNothing => 'Nothing to tidy right now.';
+
+  @override
+  String previewWaiting(int count) {
+    return '$count files are still downloading or just changed, so they are skipped this time.';
+  }
+
+  @override
+  String previewSummary(int count) {
+    return '$count files will be tidied';
+  }
+
+  @override
+  String previewRun(int count) {
+    return 'Tidy ($count)';
+  }
+
+  @override
+  String actionMoveTo(String folder) {
+    return '→ $folder';
+  }
+
+  @override
+  String get actionTrash => 'To Trash';
+
+  @override
+  String get historyTitle => 'Recent activity';
+
+  @override
+  String get historyEmpty => 'No files tidied yet.';
+
+  @override
+  String get historyUndo => 'Undo';
+
+  @override
+  String get historyUndone => 'Undone';
+
+  @override
+  String get historyFailed => 'Failed';
+
+  @override
+  String get historyUndoUnavailable =>
+      'Can\'t tell where the file is in the Trash, so it can\'t be undone here. Restore it from the Trash yourself.';
+
+  @override
+  String tidyDone(int count) {
+    return 'Tidied $count files';
+  }
+
+  @override
+  String tidyDonePartial(int done, int failed) {
+    return '$done tidied, $failed failed';
+  }
+
+  @override
+  String get undoDone => 'Put back where it was';
+
+  @override
+  String undoFailed(String error) {
+    return 'Couldn\'t undo: $error';
+  }
+
+  @override
+  String get watchErrorTitle => 'Couldn\'t read a folder';
+
+  @override
+  String get watchErrorHint =>
+      'Check that the folder exists and that Stevedore is allowed to access files and folders in System Settings › Privacy & Security.';
 }

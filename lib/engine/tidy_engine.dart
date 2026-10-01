@@ -5,9 +5,12 @@ import 'package:path/path.dart' as p;
 
 import '../rules/rule.dart';
 import 'file_ops.dart';
+import 'history.dart';
 import 'ignored_files.dart';
 import 'paths.dart';
 import 'stability_tracker.dart';
+
+typedef _Signature = ({int size, DateTime modified});
 
 /// 규칙에 걸린 파일 하나와 해야 할 일. 실행하기 전의 계획이라서 미리보기에도 쓴다.
 class PlannedAction {
@@ -66,6 +69,11 @@ class TidyEngine {
   final StabilityTracker _stability;
 
   List<Rule> _rules = const [];
+
+  /// 건드리지 않을 파일: 되돌려 놓은 파일, 실행에 실패한 파일. 크기·수정 시각이
+  /// 그대로인 동안만 건너뛴다 — 되돌린 파일을 규칙이 바로 다시 옮기거나 실패를
+  /// 무한히 되풀이하는 일을 막는다.
+  final Map<String, _Signature> _suppressed = {};
   final Map<String, StreamSubscription<FileSystemEvent>> _watchers = {};
   Timer? _timer;
   bool _dirty = false;
@@ -90,6 +98,29 @@ class TidyEngine {
   Future<void> setRules(List<Rule> rules) async {
     _rules = List.unmodifiable(rules);
     if (isRunning) await _syncWatchers();
+  }
+
+  /// [path]를 내용이 바뀔 때까지 정리 대상에서 뺀다.
+  Future<void> suppress(String path) async {
+    try {
+      final stat = await File(path).stat();
+      if (stat.type == FileSystemEntityType.file) _suppressed[path] = (size: stat.size, modified: stat.modified);
+    } on FileSystemException {
+      // 이미 없다
+    }
+  }
+
+  /// 기록한 이동·휴지통 동작을 되돌린다. 원래 폴더가 없어졌으면 만들고, 원래 이름이
+  /// 이미 쓰이고 있으면 번호를 붙인다. 되돌려진 경로를 돌려준다.
+  Future<String> undo(HistoryEntry entry) async {
+    final from = entry.resultPath;
+    if (!entry.canUndo || from == null) throw StateError('되돌릴 수 없는 기록입니다');
+    if (await FileSystemEntity.type(from, followLinks: false) != FileSystemEntityType.file) {
+      throw FileSystemException('옮긴 파일을 찾을 수 없습니다', from);
+    }
+    final restored = await _ops.move(from, p.dirname(entry.sourcePath), asName: p.basename(entry.sourcePath));
+    await suppress(restored);
+    return restored;
   }
 
   /// 지금 폴더들을 훑어서 할 일을 계획한다. 파일을 건드리지 않는다.
@@ -126,7 +157,17 @@ class TidyEngine {
         final facts = FileFacts(name: name, sizeBytes: stat.size, modified: stat.modified);
         final rule = entry.value.where((r) => r.matches(facts, now: now)).firstOrNull;
         if (rule == null) continue;
+        final held = _suppressed[e.path];
+        if (held != null) {
+          if (held.size == stat.size && held.modified == stat.modified) continue;
+          _suppressed.remove(e.path); // 내용이 바뀌었으니 다시 대상
+        }
         live.add(e.path);
+        // 수동 정리도 방금 바뀐 파일(받는 중일 수 있음)은 건드리지 않는다.
+        if (!requireStable && settle > Duration.zero && now.difference(stat.modified) < settle) {
+          waiting++;
+          continue;
+        }
         if (requireStable &&
             !_stability.isStable(e.path, size: stat.size, modified: stat.modified, now: now)) {
           waiting++;
@@ -163,6 +204,7 @@ class TidyEngine {
         _stability.forget(item.path);
         out.add(ActionResult(planned: item, time: _clock(), resultPath: resultPath));
       } on Object catch (e) {
+        _suppressed[item.path] = (size: stat.size, modified: stat.modified);
         out.add(ActionResult(planned: item, time: _clock(), error: e));
       }
     }

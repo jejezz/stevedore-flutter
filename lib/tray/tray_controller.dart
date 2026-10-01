@@ -11,13 +11,16 @@ import '../settings/app_settings.dart';
 /// 상주 동작을 맡는다: 트레이/메뉴바 아이콘과 메뉴, 창을 닫으면 숨기기만 하고
 /// 앱은 계속 실행한다. 완전히 끝내는 길은 트레이 메뉴의 "종료"뿐이다.
 class TrayController with TrayListener, WindowListener {
-  TrayController({required this.settings, required this.onAbout});
+  TrayController({required this.settings, required this.onAbout, required this.onTidyNow});
 
   final AppSettings settings;
 
   /// 정보 창 열기. 창을 먼저 보여준 뒤 부른다 (about-dialog.md §1: 앱 메뉴가
   /// 없는 상주 앱은 트레이 메뉴가 그 자리를 대신한다).
   final Future<void> Function() onAbout;
+
+  /// "지금 정리": 창을 보여준 뒤 미리보기를 연다.
+  final Future<void> Function() onTidyNow;
 
   static const _keyOpen = 'open';
   static const _keyTidyNow = 'tidy_now';
@@ -54,8 +57,7 @@ class TrayController with TrayListener, WindowListener {
     final l10n = _l10n;
     await trayManager.setContextMenu(Menu(items: [
       MenuItem(key: _keyOpen, label: l10n.trayOpen),
-      // 정리 엔진이 생기기 전까지는 비활성.
-      MenuItem(key: _keyTidyNow, label: l10n.trayTidyNow, disabled: true),
+      MenuItem(key: _keyTidyNow, label: l10n.trayTidyNow),
       MenuItem.separator(),
       MenuItem(key: _keyAbout, label: l10n.aboutMenuItem(AppIdentity.displayName)),
       MenuItem.separator(),
@@ -86,6 +88,8 @@ class TrayController with TrayListener, WindowListener {
     switch (menuItem.key) {
       case _keyOpen:
         showWindow();
+      case _keyTidyNow:
+        showWindow().then((_) => onTidyNow());
       case _keyAbout:
         showWindow().then((_) => onAbout());
       case _keyQuit:

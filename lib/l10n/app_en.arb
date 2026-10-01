@@ -19,5 +19,88 @@
   "homeEmptyAction": "Add rule",
   "trayOpen": "Open Stevedore",
   "trayTidyNow": "Tidy now",
-  "trayQuit": "Quit"
+  "trayQuit": "Quit",
+  "commonCancel": "Cancel",
+  "commonCopy": "Copy",
+  "tidyNow": "Tidy now",
+  "homeRulesSummary": "{count} rules · watching",
+  "@homeRulesSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "previewTitle": "Tidy preview",
+  "previewNoRules": "No rules are turned on. Add a rule to preview what it would do.",
+  "previewNothing": "Nothing to tidy right now.",
+  "previewWaiting": "{count} files are still downloading or just changed, so they are skipped this time.",
+  "@previewWaiting": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "previewSummary": "{count} files will be tidied",
+  "@previewSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "previewRun": "Tidy ({count})",
+  "@previewRun": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "actionMoveTo": "→ {folder}",
+  "@actionMoveTo": {
+    "placeholders": {
+      "folder": {
+        "type": "String"
+      }
+    }
+  },
+  "actionTrash": "To Trash",
+  "historyTitle": "Recent activity",
+  "historyEmpty": "No files tidied yet.",
+  "historyUndo": "Undo",
+  "historyUndone": "Undone",
+  "historyFailed": "Failed",
+  "historyUndoUnavailable": "Can't tell where the file is in the Trash, so it can't be undone here. Restore it from the Trash yourself.",
+  "tidyDone": "Tidied {count} files",
+  "@tidyDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "tidyDonePartial": "{done} tidied, {failed} failed",
+  "@tidyDonePartial": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "failed": {
+        "type": "int"
+      }
+    }
+  },
+  "undoDone": "Put back where it was",
+  "undoFailed": "Couldn't undo: {error}",
+  "@undoFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "watchErrorTitle": "Couldn't read a folder",
+  "watchErrorHint": "Check that the folder exists and that Stevedore is allowed to access files and folders in System Settings › Privacy & Security."
 }

@@ -217,6 +217,150 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'종료'**
   String get trayQuit;
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In ko, this message translates to:
+  /// **'취소'**
+  String get commonCancel;
+
+  /// No description provided for @commonCopy.
+  ///
+  /// In ko, this message translates to:
+  /// **'복사'**
+  String get commonCopy;
+
+  /// No description provided for @tidyNow.
+  ///
+  /// In ko, this message translates to:
+  /// **'지금 정리'**
+  String get tidyNow;
+
+  /// No description provided for @homeRulesSummary.
+  ///
+  /// In ko, this message translates to:
+  /// **'규칙 {count}개 · 감시 중'**
+  String homeRulesSummary(int count);
+
+  /// No description provided for @previewTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'정리 미리보기'**
+  String get previewTitle;
+
+  /// No description provided for @previewNoRules.
+  ///
+  /// In ko, this message translates to:
+  /// **'켜져 있는 규칙이 없습니다. 규칙을 추가하면 여기서 결과를 미리 볼 수 있습니다.'**
+  String get previewNoRules;
+
+  /// No description provided for @previewNothing.
+  ///
+  /// In ko, this message translates to:
+  /// **'지금 정리할 파일이 없습니다.'**
+  String get previewNothing;
+
+  /// No description provided for @previewWaiting.
+  ///
+  /// In ko, this message translates to:
+  /// **'{count}개 파일은 받는 중이거나 방금 바뀌어서 이번에는 건너뜁니다.'**
+  String previewWaiting(int count);
+
+  /// No description provided for @previewSummary.
+  ///
+  /// In ko, this message translates to:
+  /// **'{count}개 파일을 정리합니다'**
+  String previewSummary(int count);
+
+  /// No description provided for @previewRun.
+  ///
+  /// In ko, this message translates to:
+  /// **'정리 실행 ({count})'**
+  String previewRun(int count);
+
+  /// No description provided for @actionMoveTo.
+  ///
+  /// In ko, this message translates to:
+  /// **'→ {folder}'**
+  String actionMoveTo(String folder);
+
+  /// No description provided for @actionTrash.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴지통으로'**
+  String get actionTrash;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'최근 기록'**
+  String get historyTitle;
+
+  /// No description provided for @historyEmpty.
+  ///
+  /// In ko, this message translates to:
+  /// **'아직 정리한 파일이 없습니다.'**
+  String get historyEmpty;
+
+  /// No description provided for @historyUndo.
+  ///
+  /// In ko, this message translates to:
+  /// **'되돌리기'**
+  String get historyUndo;
+
+  /// No description provided for @historyUndone.
+  ///
+  /// In ko, this message translates to:
+  /// **'되돌림'**
+  String get historyUndone;
+
+  /// No description provided for @historyFailed.
+  ///
+  /// In ko, this message translates to:
+  /// **'실패'**
+  String get historyFailed;
+
+  /// No description provided for @historyUndoUnavailable.
+  ///
+  /// In ko, this message translates to:
+  /// **'휴지통 위치를 알 수 없어 되돌릴 수 없습니다. 휴지통에서 직접 복원해 주세요.'**
+  String get historyUndoUnavailable;
+
+  /// No description provided for @tidyDone.
+  ///
+  /// In ko, this message translates to:
+  /// **'{count}개 파일을 정리했습니다'**
+  String tidyDone(int count);
+
+  /// No description provided for @tidyDonePartial.
+  ///
+  /// In ko, this message translates to:
+  /// **'{done}개 정리, {failed}개 실패'**
+  String tidyDonePartial(int done, int failed);
+
+  /// No description provided for @undoDone.
+  ///
+  /// In ko, this message translates to:
+  /// **'원래 위치로 되돌렸습니다'**
+  String get undoDone;
+
+  /// No description provided for @undoFailed.
+  ///
+  /// In ko, this message translates to:
+  /// **'되돌리지 못했습니다: {error}'**
+  String undoFailed(String error);
+
+  /// No description provided for @watchErrorTitle.
+  ///
+  /// In ko, this message translates to:
+  /// **'폴더를 읽지 못했습니다'**
+  String get watchErrorTitle;
+
+  /// No description provided for @watchErrorHint.
+  ///
+  /// In ko, this message translates to:
+  /// **'폴더가 있는지, 시스템 설정의 개인정보 보호 및 보안에서 Stevedore의 파일 및 폴더 접근이 허용돼 있는지 확인하세요.'**
+  String get watchErrorHint;
 }
 
 class _AppLocalizationsDelegate
