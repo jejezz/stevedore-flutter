@@ -1,0 +1,20 @@
+{
+  "@@locale": "en",
+  "aboutTooltip": "About",
+  "aboutVersion": "Version {version} (build {build})",
+  "aboutOpenSourceLicenses": "Open Source Licenses",
+  "aboutRepository": "GitHub",
+  "commonClose": "Close",
+  "aboutMenuItem": "About {appName}",
+  "themeMenuTooltip": "Theme",
+  "themeSystem": "Follow System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "languageMenuTooltip": "Language",
+  "languageSystem": "System / 시스템 설정 따르기",
+  "languageSystemShort": "System",
+  "aboutTagline": "Keeps your Downloads folder tidy, by your rules",
+  "aboutDescription": "Stevedore sorts and cleans up files that land in folders like Downloads, by extension, name, size and age. Let it run in the background, or tidy up on demand with \"Tidy now\".",
+  "homeEmptyTitle": "No rules yet. Add a rule to start tidying your Downloads folder",
+  "homeEmptyAction": "Add rule"
+}
