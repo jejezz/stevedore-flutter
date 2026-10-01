@@ -18,6 +18,7 @@ import 'l10n/app_localizations.dart';
 import 'settings/app_settings.dart';
 import 'settings/settings_menus.dart';
 import 'theme/app_theme.dart';
+import 'tray/tray_controller.dart';
 
 final bool _isDesktop = Platform.isMacOS || Platform.isWindows || Platform.isLinux;
 
@@ -55,10 +56,15 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> with WidgetsBindingObserver {
   final _navigatorKey = GlobalKey<NavigatorState>();
+  TrayController? _tray;
 
   @override
   void initState() {
     super.initState();
+    if (_isDesktop) {
+      _tray = TrayController(settings: widget.settings, onAbout: () async => _showAbout());
+      _tray!.init();
+    }
     WidgetsBinding.instance.addObserver(this);
     widget.settings.addListener(_syncWindowBrightness);
     _syncWindowBrightness();
@@ -67,6 +73,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     widget.settings.removeListener(_syncWindowBrightness);
+    _tray?.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }

@@ -64,4 +64,13 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get homeEmptyAction => '규칙 추가';
+
+  @override
+  String get trayOpen => 'Stevedore 열기';
+
+  @override
+  String get trayTidyNow => '지금 정리';
+
+  @override
+  String get trayQuit => '종료';
 }

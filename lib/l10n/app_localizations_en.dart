@@ -65,4 +65,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeEmptyAction => 'Add rule';
+
+  @override
+  String get trayOpen => 'Open Stevedore';
+
+  @override
+  String get trayTidyNow => 'Tidy now';
+
+  @override
+  String get trayQuit => 'Quit';
 }

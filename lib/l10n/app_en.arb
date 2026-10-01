@@ -16,5 +16,8 @@
   "aboutTagline": "Keeps your Downloads folder tidy, by your rules",
   "aboutDescription": "Stevedore sorts and cleans up files that land in folders like Downloads, by extension, name, size and age. Let it run in the background, or tidy up on demand with \"Tidy now\".",
   "homeEmptyTitle": "No rules yet. Add a rule to start tidying your Downloads folder",
-  "homeEmptyAction": "Add rule"
+  "homeEmptyAction": "Add rule",
+  "trayOpen": "Open Stevedore",
+  "trayTidyNow": "Tidy now",
+  "trayQuit": "Quit"
 }

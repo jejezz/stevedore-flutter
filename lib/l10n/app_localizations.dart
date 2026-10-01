@@ -199,6 +199,24 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'규칙 추가'**
   String get homeEmptyAction;
+
+  /// No description provided for @trayOpen.
+  ///
+  /// In ko, this message translates to:
+  /// **'Stevedore 열기'**
+  String get trayOpen;
+
+  /// No description provided for @trayTidyNow.
+  ///
+  /// In ko, this message translates to:
+  /// **'지금 정리'**
+  String get trayTidyNow;
+
+  /// No description provided for @trayQuit.
+  ///
+  /// In ko, this message translates to:
+  /// **'종료'**
+  String get trayQuit;
 }
 
 class _AppLocalizationsDelegate
