@@ -340,6 +340,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get presetImages => '이미지';
 
   @override
+  String get presetVideos => '동영상';
+
+  @override
+  String get presetAudio => '음악·오디오';
+
+  @override
   String get presetInstallers => '설치 파일';
 
   @override

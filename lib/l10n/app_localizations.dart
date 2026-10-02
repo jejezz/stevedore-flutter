@@ -674,6 +674,18 @@ abstract class AppLocalizations {
   /// **'이미지'**
   String get presetImages;
 
+  /// No description provided for @presetVideos.
+  ///
+  /// In ko, this message translates to:
+  /// **'동영상'**
+  String get presetVideos;
+
+  /// No description provided for @presetAudio.
+  ///
+  /// In ko, this message translates to:
+  /// **'음악·오디오'**
+  String get presetAudio;
+
   /// No description provided for @presetInstallers.
   ///
   /// In ko, this message translates to:

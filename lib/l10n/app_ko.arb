@@ -235,6 +235,8 @@
   },
   "presetDocuments": "문서",
   "presetImages": "이미지",
+  "presetVideos": "동영상",
+  "presetAudio": "음악·오디오",
   "presetInstallers": "설치 파일",
   "presetArchives": "압축 파일",
   "presetOldInstallers": "30일 지난 설치 파일",
