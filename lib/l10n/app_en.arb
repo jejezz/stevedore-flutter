@@ -107,6 +107,13 @@
   "rulesAdd": "Add rule",
   "rulesEmpty": "No rules yet. Add one to start tidying.",
   "rulesOrderHint": "Rules higher up are applied first.",
+  "rulesGroupCount": "{enabled} of {total} on",
+  "@rulesGroupCount": {
+    "placeholders": {
+      "enabled": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
   "ruleEdit": "Edit",
   "ruleDelete": "Delete",
   "ruleDeleteTitle": "Delete this rule?",
