@@ -344,6 +344,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get presetImages => 'Images';
 
   @override
+  String get presetVideos => 'Videos';
+
+  @override
+  String get presetAudio => 'Audio';
+
+  @override
   String get presetInstallers => 'Installers';
 
   @override

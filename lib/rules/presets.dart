@@ -6,6 +6,8 @@ enum RulePreset {
   oldInstallers(['dmg', 'pkg', 'exe', 'msi'], olderThanDays: 30, trash: true),
   documents(['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'hwp', 'hwpx', 'txt', 'rtf', 'csv']),
   images(['jpg', 'jpeg', 'png', 'gif', 'webp', 'heic', 'bmp', 'svg', 'tiff']),
+  videos(['mp4', 'mov', 'mkv', 'avi', 'wmv', 'webm', 'm4v', 'flv']),
+  audio(['mp3', 'wav', 'flac', 'm4a', 'aac', 'ogg', 'wma', 'aiff']),
   installers(['dmg', 'pkg', 'exe', 'msi']),
   archives(['zip', 'rar', '7z', 'tar', 'tgz', 'gz', 'bz2', 'xz']);
 

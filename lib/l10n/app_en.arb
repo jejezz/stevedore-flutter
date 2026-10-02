@@ -218,6 +218,8 @@
   },
   "presetDocuments": "Documents",
   "presetImages": "Images",
+  "presetVideos": "Videos",
+  "presetAudio": "Audio",
   "presetInstallers": "Installers",
   "presetArchives": "Archives",
   "presetOldInstallers": "Installers older than 30 days",

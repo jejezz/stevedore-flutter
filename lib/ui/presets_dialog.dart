@@ -10,6 +10,8 @@ String presetLabel(AppLocalizations l10n, RulePreset p) => switch (p) {
       RulePreset.oldInstallers => l10n.presetOldInstallers,
       RulePreset.documents => l10n.presetDocuments,
       RulePreset.images => l10n.presetImages,
+      RulePreset.videos => l10n.presetVideos,
+      RulePreset.audio => l10n.presetAudio,
       RulePreset.installers => l10n.presetInstallers,
       RulePreset.archives => l10n.presetArchives,
     };
