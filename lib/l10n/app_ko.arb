@@ -124,6 +124,13 @@
   "rulesAdd": "규칙 추가",
   "rulesEmpty": "규칙이 없습니다. 규칙을 추가해 정리를 시작하세요.",
   "rulesOrderHint": "위에 있는 규칙이 먼저 적용됩니다.",
+  "rulesGroupCount": "{total}개 중 {enabled}개 켜짐",
+  "@rulesGroupCount": {
+    "placeholders": {
+      "enabled": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
   "ruleEdit": "수정",
   "ruleDelete": "삭제",
   "ruleDeleteTitle": "규칙을 삭제할까요?",

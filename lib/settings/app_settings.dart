@@ -9,17 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppSettings extends ChangeNotifier {
-  AppSettings._(this._prefs, this._themeMode, this._locale, this._removeEmptyFolders);
+  AppSettings._(this._prefs, this._themeMode, this._locale, this._removeEmptyFolders, this._collapsedRuleFolders);
 
   /// 저장 키 — 모든 앱 공통 (localization.md §5). 바꾸지 않는다.
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'app_locale';
   static const removeEmptyFoldersKey = 'remove_empty_folders';
+  static const collapsedRuleFoldersKey = 'collapsed_rule_folders';
 
   final SharedPreferences _prefs;
   ThemeMode _themeMode;
   Locale? _locale;
   bool _removeEmptyFolders;
+  final Set<String> _collapsedRuleFolders;
 
   /// 저장된 값을 읽는다. [legacyKeys]는 예전 앱이 쓰던 키를 새 키로 한 번
   /// 옮긴다 — 키를 그냥 바꾸면 사용자 설정이 사라진다.
@@ -38,6 +40,7 @@ class AppSettings extends ChangeNotifier {
       mode,
       code == null ? null : Locale(code),
       prefs.getBool(removeEmptyFoldersKey) ?? false,
+      (prefs.getStringList(collapsedRuleFoldersKey) ?? const []).toSet(),
     );
   }
 
@@ -54,6 +57,15 @@ class AppSettings extends ChangeNotifier {
     _removeEmptyFolders = value;
     notifyListeners();
     await _prefs.setBool(removeEmptyFoldersKey, value);
+  }
+
+  /// 규칙 목록에서 접어 둔 폴더 그룹 (정규화한 폴더 경로).
+  Set<String> get collapsedRuleFolders => Set.unmodifiable(_collapsedRuleFolders);
+
+  Future<void> setRuleFolderCollapsed(String folder, bool collapsed) async {
+    if (collapsed ? !_collapsedRuleFolders.add(folder) : !_collapsedRuleFolders.remove(folder)) return;
+    notifyListeners();
+    await _prefs.setStringList(collapsedRuleFoldersKey, _collapsedRuleFolders.toList());
   }
 
   Future<void> setThemeMode(ThemeMode mode) async {

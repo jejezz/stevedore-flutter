@@ -386,6 +386,12 @@ abstract class AppLocalizations {
   /// **'위에 있는 규칙이 먼저 적용됩니다.'**
   String get rulesOrderHint;
 
+  /// No description provided for @rulesGroupCount.
+  ///
+  /// In ko, this message translates to:
+  /// **'{total}개 중 {enabled}개 켜짐'**
+  String rulesGroupCount(int enabled, int total);
+
   /// No description provided for @ruleEdit.
   ///
   /// In ko, this message translates to:

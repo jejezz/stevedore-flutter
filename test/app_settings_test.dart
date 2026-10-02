@@ -23,6 +23,16 @@ void main() {
     expect((await AppSettings.load()).removeEmptyFolders, isTrue);
   });
 
+  test('persists collapsed rule folders', () async {
+    SharedPreferences.setMockInitialValues({});
+    final s = await AppSettings.load();
+    expect(s.collapsedRuleFolders, isEmpty);
+    await s.setRuleFolderCollapsed('/a', true);
+    await s.setRuleFolderCollapsed('/b', true);
+    await s.setRuleFolderCollapsed('/a', false);
+    expect((await AppSettings.load()).collapsedRuleFolders, {'/b'});
+  });
+
   test('persists under theme_mode / app_locale', () async {
     SharedPreferences.setMockInitialValues({});
     final s = await AppSettings.load();

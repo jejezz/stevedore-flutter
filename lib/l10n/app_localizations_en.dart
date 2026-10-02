@@ -179,6 +179,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rulesOrderHint => 'Rules higher up are applied first.';
 
   @override
+  String rulesGroupCount(int enabled, int total) {
+    return '$enabled of $total on';
+  }
+
+  @override
   String get ruleEdit => 'Edit';
 
   @override

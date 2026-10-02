@@ -177,6 +177,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get rulesOrderHint => '위에 있는 규칙이 먼저 적용됩니다.';
 
   @override
+  String rulesGroupCount(int enabled, int total) {
+    return '$total개 중 $enabled개 켜짐';
+  }
+
+  @override
   String get ruleEdit => '수정';
 
   @override
