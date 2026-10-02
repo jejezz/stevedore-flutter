@@ -10,7 +10,7 @@ import 'rule_formatting.dart';
 /// 순서(우선순위)를 바꾸고, 스위치로 켜고 끄고, 메뉴로 수정·삭제한다.
 ///
 /// [onReorder]의 인덱스는 그룹이 아니라 전체 [rules] 기준이다.
-class RulesList extends StatefulWidget {
+class RulesList extends StatelessWidget {
   const RulesList({
     super.key,
     required this.rules,
@@ -18,6 +18,8 @@ class RulesList extends StatefulWidget {
     required this.onEdit,
     required this.onDelete,
     required this.onReorder,
+    required this.collapsedFolders,
+    required this.onToggleFolder,
   });
 
   final List<Rule> rules;
@@ -26,19 +28,15 @@ class RulesList extends StatefulWidget {
   final void Function(Rule rule) onDelete;
   final void Function(int oldIndex, int newIndex) onReorder;
 
-  @override
-  State<RulesList> createState() => _RulesListState();
-}
-
-class _RulesListState extends State<RulesList> {
-  /// 접어 둔 그룹의 폴더 경로.
-  final Set<String> _collapsed = {};
+  /// 접어 둔 그룹의 폴더 경로(정규화한 값).
+  final Set<String> collapsedFolders;
+  final void Function(String folder, bool collapsed) onToggleFolder;
 
   /// 폴더(정규화한 경로)별로 규칙의 전체 인덱스를 모은다. 그룹은 처음 나온 순서를 따른다.
   Map<String, List<int>> _groups() {
     final groups = <String, List<int>>{};
-    for (var i = 0; i < widget.rules.length; i++) {
-      groups.putIfAbsent(expandPath(widget.rules[i].watchedFolder), () => []).add(i);
+    for (var i = 0; i < rules.length; i++) {
+      groups.putIfAbsent(expandPath(rules[i].watchedFolder), () => []).add(i);
     }
     return groups;
   }
@@ -47,7 +45,7 @@ class _RulesListState extends State<RulesList> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    if (widget.rules.isEmpty) {
+    if (rules.isEmpty) {
       return Center(child: Text(l10n.rulesEmpty, style: theme.textTheme.bodySmall, textAlign: TextAlign.center));
     }
     final groups = _groups().entries.toList();
@@ -69,14 +67,14 @@ class _RulesListState extends State<RulesList> {
   Widget _group(BuildContext context, String folder, List<int> indices) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final expanded = !_collapsed.contains(folder);
-    final enabledCount = indices.where((i) => widget.rules[i].enabled).length;
+    final expanded = !collapsedFolders.contains(folder);
+    final enabledCount = indices.where((i) => rules[i].enabled).length;
     return Column(
       key: ValueKey(folder),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
-          onTap: () => setState(() => expanded ? _collapsed.add(folder) : _collapsed.remove(folder)),
+          onTap: () => onToggleFolder(folder, expanded),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
             child: Row(
@@ -103,8 +101,8 @@ class _RulesListState extends State<RulesList> {
             buildDefaultDragHandles: false,
             itemCount: indices.length,
             // 그룹 안의 위치를 전체 목록의 위치로 바꿔 넘긴다.
-            onReorderItem: (oldIndex, newIndex) => widget.onReorder(indices[oldIndex], indices[newIndex]),
-            itemBuilder: (context, i) => _tile(context, widget.rules[indices[i]], i),
+            onReorderItem: (oldIndex, newIndex) => onReorder(indices[oldIndex], indices[newIndex]),
+            itemBuilder: (context, i) => _tile(context, rules[indices[i]], i),
           ),
         const Divider(height: 1),
       ],
@@ -130,14 +128,14 @@ class _RulesListState extends State<RulesList> {
           overflow: TextOverflow.ellipsis,
           style: AppFonts.userContent.copyWith(color: r.enabled ? null : theme.disabledColor)),
       subtitle: Text(describeRule(l10n, r), maxLines: 2, overflow: TextOverflow.ellipsis, style: AppFonts.userContent),
-      onTap: () => widget.onEdit(r),
+      onTap: () => onEdit(r),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Switch(value: r.enabled, onChanged: (v) => widget.onToggle(r, v)),
+          Switch(value: r.enabled, onChanged: (v) => onToggle(r, v)),
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert_rounded, size: 18),
-            onSelected: (v) => v == 'edit' ? widget.onEdit(r) : widget.onDelete(r),
+            onSelected: (v) => v == 'edit' ? onEdit(r) : onDelete(r),
             itemBuilder: (_) => [
               PopupMenuItem(value: 'edit', child: Text(l10n.ruleEdit)),
               PopupMenuItem(value: 'delete', child: Text(l10n.ruleDelete)),

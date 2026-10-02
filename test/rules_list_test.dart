@@ -14,7 +14,7 @@ void main() {
         action: const TrashAction(),
       );
 
-  Future<void> pump(WidgetTester tester, List<Rule> rules, {void Function(int, int)? onReorder}) =>
+  Future<void> pump(WidgetTester tester, List<Rule> rules, {void Function(int, int)? onReorder, Set<String> collapsed = const {}, void Function(String, bool)? onToggle}) =>
       tester.pumpWidget(MaterialApp(
         locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -24,10 +24,12 @@ void main() {
             height: 600,
             child: RulesList(
               rules: rules,
-              onToggle: (_, __) {},
+              onToggle: (_, _) {},
               onEdit: (_) {},
               onDelete: (_) {},
-              onReorder: onReorder ?? (_, __) {},
+              onReorder: onReorder ?? (_, _) {},
+              collapsedFolders: collapsed,
+              onToggleFolder: onToggle ?? (_, _) {},
             ),
           ),
         ),
@@ -45,16 +47,15 @@ void main() {
     expect(find.text('0 of 1 on'), findsOneWidget);
   });
 
-  testWidgets('그룹 헤더를 누르면 접히고 다시 누르면 펼쳐진다', (tester) async {
-    await pump(tester, [rule('a', '/data/in'), rule('b', '/data/out')]);
-    expect(find.text('a'), findsOneWidget);
-    await tester.tap(find.text('/data/in'));
-    await tester.pump();
+  testWidgets('접어 둔 그룹은 규칙을 숨기고, 헤더를 누르면 토글을 알린다', (tester) async {
+    final calls = <(String, bool)>[];
+    await pump(tester, [rule('a', '/data/in'), rule('b', '/data/out')],
+        collapsed: {'/data/in'}, onToggle: (f, c) => calls.add((f, c)));
     expect(find.text('a'), findsNothing);
     expect(find.text('b'), findsOneWidget);
     await tester.tap(find.text('/data/in'));
-    await tester.pump();
-    expect(find.text('a'), findsOneWidget);
+    await tester.tap(find.text('/data/out'));
+    expect(calls, [('/data/in', false), ('/data/out', true)]);
   });
 
   testWidgets('그룹 안 순서 변경이 전체 목록 인덱스로 바뀌어 전달된다', (tester) async {

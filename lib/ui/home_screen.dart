@@ -5,6 +5,7 @@ import '../app_identity.dart';
 import '../engine/history.dart';
 import '../engine/tidy_service.dart';
 import '../l10n/app_localizations.dart';
+import '../settings/app_settings.dart';
 import '../settings/settings_menus.dart';
 import 'cleanup_options_button.dart';
 import '../theme/app_theme.dart';
@@ -147,6 +148,7 @@ class HomeScreenState extends State<HomeScreen> {
       );
 
   Widget _content(BuildContext context) {
+    final settings = AppSettingsScope.of(context);
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final service = widget.service;
@@ -201,6 +203,8 @@ class HomeScreenState extends State<HomeScreen> {
                       onEdit: _editRule,
                       onDelete: _deleteRule,
                       onReorder: service.reorderRules,
+                      collapsedFolders: settings.collapsedRuleFolders,
+                      onToggleFolder: settings.setRuleFolderCollapsed,
                     ),
                   ),
                 ),
