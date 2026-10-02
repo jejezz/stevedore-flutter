@@ -123,6 +123,7 @@ class Rule {
     required this.condition,
     required this.action,
     this.enabled = true,
+    this.includeSubfolders = false,
   });
 
   /// 저장·이력에서 규칙을 가리키는 값. 이름을 바꿔도 변하지 않는다.
@@ -135,6 +136,9 @@ class Rule {
   final RuleCondition condition;
   final RuleAction action;
 
+  /// 감시 폴더의 하위 폴더 안 파일도 대상으로 삼는다. 끄면 폴더 바로 아래 파일만 본다.
+  final bool includeSubfolders;
+
   bool matches(FileFacts file, {required DateTime now}) => enabled && condition.matches(file, now: now);
 
   Rule copyWith({
@@ -143,6 +147,7 @@ class Rule {
     String? watchedFolder,
     RuleCondition? condition,
     RuleAction? action,
+    bool? includeSubfolders,
   }) =>
       Rule(
         id: id,
@@ -151,6 +156,7 @@ class Rule {
         watchedFolder: watchedFolder ?? this.watchedFolder,
         condition: condition ?? this.condition,
         action: action ?? this.action,
+        includeSubfolders: includeSubfolders ?? this.includeSubfolders,
       );
 
   Map<String, Object?> toJson() => {
@@ -158,6 +164,7 @@ class Rule {
         'name': name,
         'enabled': enabled,
         'watchedFolder': watchedFolder,
+        if (includeSubfolders) 'includeSubfolders': true,
         'condition': condition.toJson(),
         'action': action.toJson(),
       };
@@ -166,6 +173,7 @@ class Rule {
         id: json['id'] as String,
         name: json['name'] as String,
         enabled: json['enabled'] as bool? ?? true,
+        includeSubfolders: json['includeSubfolders'] as bool? ?? false,
         watchedFolder: json['watchedFolder'] as String,
         condition: RuleCondition.fromJson((json['condition'] as Map).cast<String, Object?>()),
         action: RuleAction.fromJson((json['action'] as Map).cast<String, Object?>()),

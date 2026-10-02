@@ -221,5 +221,9 @@
   "presetInstallers": "Installers",
   "presetArchives": "Archives",
   "presetOldInstallers": "Installers older than 30 days",
-  "trayLoginItem": "Launch at login"
+  "trayLoginItem": "Launch at login",
+  "ruleIncludeSubfolders": "Include files in subfolders",
+  "ruleSubfoldersSuffix": " (incl. subfolders)",
+  "cleanupOptionsTooltip": "Tidy options",
+  "optionRemoveEmptyFolders": "Remove folders left empty after moving files"
 }

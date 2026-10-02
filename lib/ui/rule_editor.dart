@@ -43,6 +43,7 @@ class _RuleEditorDialogState extends State<RuleEditorDialog> {
   late final _minSize = _SizeField(widget.rule?.condition.minSizeBytes);
   late final _maxSize = _SizeField(widget.rule?.condition.maxSizeBytes);
   late bool _trash = widget.rule?.action is TrashAction;
+  late bool _includeSubfolders = widget.rule?.includeSubfolders ?? false;
   String? _error;
 
   @override
@@ -104,6 +105,7 @@ class _RuleEditorDialogState extends State<RuleEditorDialog> {
       id: widget.rule?.id ?? widget.service.newRuleId(),
       name: name.isEmpty ? '…' : name,
       enabled: widget.rule?.enabled ?? true,
+      includeSubfolders: _includeSubfolders,
       watchedFolder: folder,
       condition: condition,
       action: action,
@@ -210,6 +212,14 @@ class _RuleEditorDialogState extends State<RuleEditorDialog> {
               ),
               gap,
               _folderField(_folder, l10n.ruleFieldFolder),
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                controlAffinity: ListTileControlAffinity.leading,
+                dense: true,
+                title: Text(l10n.ruleIncludeSubfolders),
+                value: _includeSubfolders,
+                onChanged: (v) => setState(() => _includeSubfolders = v ?? false),
+              ),
               const SizedBox(height: AppSpacing.lg),
               Text(l10n.ruleSectionCondition, style: theme.textTheme.titleSmall),
               gap,

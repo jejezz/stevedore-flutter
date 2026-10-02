@@ -238,5 +238,9 @@
   "presetInstallers": "설치 파일",
   "presetArchives": "압축 파일",
   "presetOldInstallers": "30일 지난 설치 파일",
-  "trayLoginItem": "로그인 시 자동 실행"
+  "trayLoginItem": "로그인 시 자동 실행",
+  "ruleIncludeSubfolders": "하위 폴더의 파일도 포함",
+  "ruleSubfoldersSuffix": " (하위 폴더 포함)",
+  "cleanupOptionsTooltip": "정리 옵션",
+  "optionRemoveEmptyFolders": "파일을 옮긴 뒤 비게 된 폴더 지우기"
 }

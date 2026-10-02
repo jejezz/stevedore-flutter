@@ -697,6 +697,30 @@ abstract class AppLocalizations {
   /// In ko, this message translates to:
   /// **'로그인 시 자동 실행'**
   String get trayLoginItem;
+
+  /// No description provided for @ruleIncludeSubfolders.
+  ///
+  /// In ko, this message translates to:
+  /// **'하위 폴더의 파일도 포함'**
+  String get ruleIncludeSubfolders;
+
+  /// No description provided for @ruleSubfoldersSuffix.
+  ///
+  /// In ko, this message translates to:
+  /// **' (하위 폴더 포함)'**
+  String get ruleSubfoldersSuffix;
+
+  /// No description provided for @cleanupOptionsTooltip.
+  ///
+  /// In ko, this message translates to:
+  /// **'정리 옵션'**
+  String get cleanupOptionsTooltip;
+
+  /// No description provided for @optionRemoveEmptyFolders.
+  ///
+  /// In ko, this message translates to:
+  /// **'파일을 옮긴 뒤 비게 된 폴더 지우기'**
+  String get optionRemoveEmptyFolders;
 }
 
 class _AppLocalizationsDelegate

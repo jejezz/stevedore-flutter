@@ -354,4 +354,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trayLoginItem => 'Launch at login';
+
+  @override
+  String get ruleIncludeSubfolders => 'Include files in subfolders';
+
+  @override
+  String get ruleSubfoldersSuffix => ' (incl. subfolders)';
+
+  @override
+  String get cleanupOptionsTooltip => 'Tidy options';
+
+  @override
+  String get optionRemoveEmptyFolders =>
+      'Remove folders left empty after moving files';
 }

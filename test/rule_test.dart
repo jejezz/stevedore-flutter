@@ -81,4 +81,16 @@ void main() {
       expect(() => RuleAction.fromJson({'type': 'delete-forever'}), throwsFormatException);
     });
   });
+
+  test('includeSubfolders는 저장되고, 없으면 꺼짐', () {
+    const base = Rule(
+      id: '1',
+      name: 'n',
+      watchedFolder: '~/D',
+      condition: RuleCondition(extensions: ['pdf']),
+      action: TrashAction(),
+    );
+    expect(Rule.fromJson(base.toJson()).includeSubfolders, isFalse);
+    expect(Rule.fromJson(base.copyWith(includeSubfolders: true).toJson()).includeSubfolders, isTrue);
+  });
 }

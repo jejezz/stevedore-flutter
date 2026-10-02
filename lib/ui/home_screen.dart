@@ -6,6 +6,7 @@ import '../engine/history.dart';
 import '../engine/tidy_service.dart';
 import '../l10n/app_localizations.dart';
 import '../settings/settings_menus.dart';
+import 'cleanup_options_button.dart';
 import '../theme/app_theme.dart';
 import 'history_list.dart';
 import '../system/login_item.dart';
@@ -100,6 +101,7 @@ class HomeScreenState extends State<HomeScreen> {
             title: const Text(AppIdentity.displayName),
             actions: [
               LoginItemMenuButton(controller: widget.loginItem),
+              const CleanupOptionsButton(),
               const ThemeMenuButton(),
               const LanguageMenuButton(),
               IconButton(

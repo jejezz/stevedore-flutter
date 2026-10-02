@@ -25,4 +25,4 @@ String describeCondition(AppLocalizations l10n, RuleCondition c) => [
 
 /// 규칙 목록의 둘째 줄: "~/Downloads · pdf → ~/Documents".
 String describeRule(AppLocalizations l10n, Rule r) =>
-    '${r.watchedFolder} · ${describeCondition(l10n, r.condition)} ${describeAction(l10n, r.action)}';
+    '${r.watchedFolder}${r.includeSubfolders ? l10n.ruleSubfoldersSuffix : ''} · ${describeCondition(l10n, r.condition)} ${describeAction(l10n, r.action)}';
