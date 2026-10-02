@@ -13,6 +13,14 @@ void main() {
     final s = await AppSettings.load();
     expect(s.themeMode, ThemeMode.system);
     expect(s.locale, isNull);
+    expect(s.removeEmptyFolders, isFalse);
+  });
+
+  test('persists removeEmptyFolders', () async {
+    SharedPreferences.setMockInitialValues({});
+    final s = await AppSettings.load();
+    await s.setRemoveEmptyFolders(true);
+    expect((await AppSettings.load()).removeEmptyFolders, isTrue);
   });
 
   test('persists under theme_mode / app_locale', () async {

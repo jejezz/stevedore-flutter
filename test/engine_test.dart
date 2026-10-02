@@ -225,5 +225,47 @@ void main() {
       await e.plan(requireStable: false);
       expect(await err, isA<FileSystemException>());
     });
+
+    group('하위 폴더', () {
+      Rule sub({bool include = true}) =>
+          moveRule('r', ['pdf'], '${downloads.path}/Sorted').copyWith(includeSubfolders: include);
+
+      test('옵션을 켠 규칙만 하위 폴더를 보고, 숨김 폴더와 이동 목적지는 건너뛴다', () async {
+        put('top.pdf');
+        for (final d in ['a/b', '.hid', 'Sorted']) {
+          Directory('${downloads.path}/$d').createSync(recursive: true);
+          File('${downloads.path}/$d/in.pdf').writeAsStringSync('x');
+        }
+        final e = engine();
+        await e.setRules([sub(include: false)]);
+        expect((await e.plan(requireStable: false)).actions.map((a) => a.facts.name), ['top.pdf']);
+        await e.setRules([sub()]);
+        final paths = (await e.plan(requireStable: false)).actions.map((a) => a.path.substring(downloads.path.length));
+        expect(paths.toSet(), {'/top.pdf', '/a/b/in.pdf'});
+      });
+
+      test('비게 된 폴더는 옵션이 켜졌을 때만 지우고, 감시 폴더와 비어 있지 않은 폴더는 남긴다', () async {
+        Directory('${downloads.path}/a/b').createSync(recursive: true);
+        File('${downloads.path}/a/b/in.pdf').writeAsStringSync('x');
+        File('${downloads.path}/a/b/.DS_Store').writeAsStringSync('x');
+        Directory('${downloads.path}/keep').createSync();
+        File('${downloads.path}/keep/in.pdf').writeAsStringSync('x');
+        File('${downloads.path}/keep/note.txt').writeAsStringSync('x');
+
+        final off = engine();
+        await off.setRules([sub()]);
+        await off.apply((await off.plan(requireStable: false)).actions);
+        expect(Directory('${downloads.path}/a/b').existsSync(), isTrue);
+
+        File('${downloads.path}/a/b/in.pdf').writeAsStringSync('y'); // 위에서 이미 옮겼으니 다시 만든다
+        final on = TidyEngine(ops: ops, settle: Duration.zero, clock: () => now, removeEmptyFolders: true);
+        await on.setRules([sub()]);
+        await on.apply((await on.plan(requireStable: false)).actions);
+        expect(Directory('${downloads.path}/a').existsSync(), isFalse);
+        expect(Directory('${downloads.path}/keep').existsSync(), isTrue);
+        expect(downloads.existsSync(), isTrue);
+        expect(Directory('${downloads.path}/Sorted').existsSync(), isTrue);
+      });
+    });
   });
 }

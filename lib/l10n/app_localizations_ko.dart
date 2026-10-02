@@ -350,4 +350,16 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get trayLoginItem => '로그인 시 자동 실행';
+
+  @override
+  String get ruleIncludeSubfolders => '하위 폴더의 파일도 포함';
+
+  @override
+  String get ruleSubfoldersSuffix => ' (하위 폴더 포함)';
+
+  @override
+  String get cleanupOptionsTooltip => '정리 옵션';
+
+  @override
+  String get optionRemoveEmptyFolders => '파일을 옮긴 뒤 비게 된 폴더 지우기';
 }

@@ -32,6 +32,7 @@ Future<void> main(List<String> args) async {
   final background = args.contains(backgroundFlag);
   WidgetsFlutterBinding.ensureInitialized();
   registerExtraLicenses();
+  final settings = await AppSettings.load();
 
   if (_isDesktop) {
     await windowManager.ensureInitialized();
@@ -49,16 +50,17 @@ Future<void> main(List<String> args) async {
     });
   }
 
-  final settings = await AppSettings.load();
   final loginItem = LoginItemController(_isDesktop ? LoginItemBackend.forPlatform() : null);
   await loginItem.init();
-  runApp(App(settings: settings, service: await _startService(), loginItem: loginItem));
+  runApp(App(settings: settings, service: await _startService(settings), loginItem: loginItem));
 }
 
 /// 저장된 규칙으로 감시를 시작한다. 규칙이 없으면 감시할 폴더도 없다.
-Future<TidyService> _startService() async {
+Future<TidyService> _startService(AppSettings settings) async {
+  final engine = TidyEngine(removeEmptyFolders: settings.removeEmptyFolders);
+  settings.addListener(() => engine.removeEmptyFolders = settings.removeEmptyFolders);
   final service = TidyService(
-    engine: TidyEngine(),
+    engine: engine,
     ruleStore: RuleStore.standard(),
     historyStore: HistoryStore.standard(),
   );

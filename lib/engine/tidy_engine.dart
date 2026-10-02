@@ -46,7 +46,8 @@ class ActionResult {
 
 /// 폴더를 감시하다가 규칙에 맞는 파일을 정리한다.
 ///
-/// - 폴더 바로 아래의 일반 파일만 본다 (하위 폴더, 심볼릭 링크, 숨김 파일은 건드리지 않음).
+/// - 기본은 폴더 바로 아래의 일반 파일만 본다. 규칙이 [Rule.includeSubfolders]를 켜면 하위 폴더도 훑는다
+///   (심볼릭 링크, 숨김 파일·폴더, 다른 규칙의 이동 목적지 폴더는 건드리지 않음).
 /// - 받는 중인 임시 파일은 제외하고, 크기·수정 시각이 [settle] 동안 같은 파일만 처리한다.
 /// - 규칙은 목록 순서대로 보고 처음 맞는 하나만 적용한다.
 class TidyEngine {
@@ -56,6 +57,7 @@ class TidyEngine {
     this.settle = const Duration(seconds: 5),
     this.tick = const Duration(seconds: 2),
     Map<String, String>? env,
+    this.removeEmptyFolders = false,
   })  : _ops = ops ?? SystemFileOps(env: env),
         _clock = clock ?? DateTime.now,
         _env = env,
@@ -65,6 +67,9 @@ class TidyEngine {
   final DateTime Function() _clock;
   final Duration settle;
   final Duration tick;
+
+  /// 하위 폴더의 파일을 옮긴 뒤 그 폴더가 비면 지운다 (감시 폴더 자체는 지우지 않는다).
+  bool removeEmptyFolders;
   final Map<String, String>? _env;
   final StabilityTracker _stability;
 
@@ -133,20 +138,21 @@ class TidyEngine {
       byFolder.putIfAbsent(_folderOf(r), () => []).add(r);
     }
 
+    final destinations = _destinations(rules ?? _rules);
     final actions = <PlannedAction>[];
     final live = <String>{};
     var waiting = 0;
 
     for (final entry in byFolder.entries) {
-      final List<FileSystemEntity> entries;
+      final List<File> files;
       try {
-        entries = await Directory(entry.key).list(followLinks: false).toList();
+        files = await _listFiles(entry.key, recursive: entry.value.any((r) => r.includeSubfolders), skip: destinations);
       } on FileSystemException catch (e) {
         _errors.add(e);
         continue;
       }
-      for (final e in entries) {
-        if (e is! File) continue; // 폴더, 링크 제외
+      for (final e in files) {
+        final topLevel = p.dirname(e.path) == entry.key;
         final name = p.basename(e.path);
         if (isIgnoredFileName(name)) continue;
         final FileStat stat;
@@ -156,7 +162,7 @@ class TidyEngine {
           continue; // 그 사이 사라짐
         }
         final facts = FileFacts(name: name, sizeBytes: stat.size, modified: stat.modified);
-        final rule = entry.value.where((r) => r.matches(facts, now: now)).firstOrNull;
+        final rule = entry.value.where((r) => (topLevel || r.includeSubfolders) && r.matches(facts, now: now)).firstOrNull;
         if (rule == null) continue;
         final held = _suppressed[e.path];
         if (held != null) {
@@ -209,8 +215,71 @@ class TidyEngine {
         out.add(ActionResult(planned: item, time: _clock(), error: e));
       }
     }
+    if (removeEmptyFolders) await _removeEmptiedFolders([for (final r in out) if (r.succeeded) r.planned]);
     if (out.isNotEmpty) _results.add(out);
     return out;
+  }
+
+  /// 켜져 있는 이동 규칙의 목적지 폴더들. 정리된 파일이 쌓이는 곳이라 다시 훑지 않는다.
+  Set<String> _destinations(List<Rule> rules) => {
+        for (final r in rules.where((r) => r.enabled))
+          if (r.action case MoveAction(:final destination)) expandPath(destination, env: _env),
+      };
+
+  /// [root] 아래 파일을 모은다. [recursive]면 하위 폴더까지, 단 숨김 폴더와 [skip] 폴더(와 그 아래)는 건너뛴다.
+  /// 최상위 폴더를 읽지 못하면 예외를 던지고, 하위 폴더는 읽지 못해도 조용히 넘어간다.
+  Future<List<File>> _listFiles(String root, {required bool recursive, required Set<String> skip}) async {
+    final files = <File>[];
+    final pending = [root];
+    while (pending.isNotEmpty) {
+      final dir = pending.removeLast();
+      final List<FileSystemEntity> entries;
+      try {
+        entries = await Directory(dir).list(followLinks: false).toList();
+      } on FileSystemException {
+        if (dir == root) rethrow;
+        continue;
+      }
+      for (final e in entries) {
+        if (e is File) {
+          files.add(e);
+        } else if (recursive && e is Directory) {
+          final name = p.basename(e.path);
+          if (name.startsWith('.') || skip.any((s) => p.equals(s, e.path) || p.isWithin(s, e.path))) continue;
+          pending.add(e.path);
+        }
+      }
+    }
+    return files;
+  }
+
+  /// 파일을 옮겨 비게 된 하위 폴더를 지운다. 안쪽부터 위로 올라가며, 감시 폴더와 이동 목적지는 남긴다.
+  /// 비었거나 `.DS_Store`만 남은 폴더만 지우므로 사라지는 내용이 없다.
+  Future<void> _removeEmptiedFolders(List<PlannedAction> done) async {
+    final destinations = _destinations(_rules);
+    final candidates = {
+      for (final a in done)
+        if (p.isWithin(_folderOf(a.rule), p.dirname(a.path))) p.dirname(a.path): _folderOf(a.rule),
+    };
+    final ordered = candidates.keys.toList()..sort((a, b) => b.length.compareTo(a.length));
+    for (final start in ordered) {
+      final root = candidates[start]!;
+      var dir = start;
+      while (p.isWithin(root, dir) && !destinations.any((d) => p.equals(d, dir))) {
+        try {
+          final entries = await Directory(dir).list(followLinks: false).toList();
+          // Finder가 만든 .DS_Store만 남았으면 빈 폴더로 본다.
+          if (entries.any((e) => e is! File || p.basename(e.path) != '.DS_Store')) break;
+          for (final e in entries) {
+            await e.delete();
+          }
+          await Directory(dir).delete();
+        } on FileSystemException {
+          break; // 이미 없거나 지울 수 없음
+        }
+        dir = p.dirname(dir);
+      }
+    }
   }
 
   /// 감시를 시작한다. 시작 직후 한 번 훑고, 이후에는 폴더에 변화가 있을 때만 깨어난다.
