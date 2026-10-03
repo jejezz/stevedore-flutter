@@ -83,10 +83,9 @@ class TidyService extends ChangeNotifier {
 
   Future<void> _setRules(List<Rule> rules) async {
     _rules = List.unmodifiable(rules);
-    // 저장·감시 폴더 재동기화는 느릴 수 있으니 화면부터 새 규칙으로 바꾼다.
-    notifyListeners();
     await ruleStore.save(_rules);
     await engine.setRules(_rules);
+    notifyListeners();
   }
 
   /// "지금 정리"가 보여줄 미리보기. 파일을 건드리지 않는다.
