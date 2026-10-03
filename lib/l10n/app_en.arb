@@ -92,8 +92,6 @@
       }
     }
   },
-  "saveErrorTitle": "Couldn't save the rules, so they were put back as before",
-  "savingRules": "Saving…",
   "undoDone": "Put back where it was",
   "undoFailed": "Couldn't undo: {error}",
   "@undoFailed": {

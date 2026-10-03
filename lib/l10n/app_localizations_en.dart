@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -55,10 +56,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutTagline => 'Keeps your Downloads folder tidy, by your rules';
 
   @override
-  String get aboutDescription => 'Stevedore sorts and cleans up files that land in folders like Downloads, by extension, name, size and age. Let it run in the background, or tidy up on demand with \"Tidy now\".';
+  String get aboutDescription =>
+      'Stevedore sorts and cleans up files that land in folders like Downloads, by extension, name, size and age. Let it run in the background, or tidy up on demand with \"Tidy now\".';
 
   @override
-  String get homeEmptyTitle => 'No rules yet. Add a rule to start tidying your Downloads folder';
+  String get homeEmptyTitle =>
+      'No rules yet. Add a rule to start tidying your Downloads folder';
 
   @override
   String get homeEmptyAction => 'Add rule';
@@ -90,7 +93,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get previewTitle => 'Tidy preview';
 
   @override
-  String get previewNoRules => 'No rules are turned on. Add a rule to preview what it would do.';
+  String get previewNoRules =>
+      'No rules are turned on. Add a rule to preview what it would do.';
 
   @override
   String get previewNothing => 'Nothing to tidy right now.';
@@ -134,7 +138,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get historyFailed => 'Failed';
 
   @override
-  String get historyUndoUnavailable => 'Can\'t tell where the file is in the Trash, so it can\'t be undone here. Restore it from the Trash yourself.';
+  String get historyUndoUnavailable =>
+      'Can\'t tell where the file is in the Trash, so it can\'t be undone here. Restore it from the Trash yourself.';
 
   @override
   String tidyDone(int count) {
@@ -145,12 +150,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String tidyDonePartial(int done, int failed) {
     return '$done tidied, $failed failed';
   }
-
-  @override
-  String get saveErrorTitle => 'Couldn\'t save the rules, so they were put back as before';
-
-  @override
-  String get savingRules => 'Saving…';
 
   @override
   String get undoDone => 'Put back where it was';
@@ -164,7 +163,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get watchErrorTitle => 'Couldn\'t read a folder';
 
   @override
-  String get watchErrorHint => 'Check that the folder exists and that Stevedore is allowed to access files and folders in System Settings › Privacy & Security.';
+  String get watchErrorHint =>
+      'Check that the folder exists and that Stevedore is allowed to access files and folders in System Settings › Privacy & Security.';
 
   @override
   String get rulesTitle => 'Rules';
@@ -249,7 +249,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ruleFieldDestination => 'Destination folder';
 
   @override
-  String get ruleTrashNote => 'Files go to the Trash. Nothing is deleted permanently.';
+  String get ruleTrashNote =>
+      'Files go to the Trash. Nothing is deleted permanently.';
 
   @override
   String get ruleSave => 'Save';
@@ -270,7 +271,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ruleErrDestination => 'Enter a destination folder';
 
   @override
-  String get ruleErrSameFolder => 'The destination is the same as the watched folder';
+  String get ruleErrSameFolder =>
+      'The destination is the same as the watched folder';
 
   @override
   String get ruleErrNumber => 'Enter a number, 0 or more';
@@ -324,7 +326,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get presetsTitle => 'Suggested rules';
 
   @override
-  String get presetsIntro => 'The rules you pick apply to your Downloads folder. Files already there are tidied right away, and you can undo from Recent activity.';
+  String get presetsIntro =>
+      'The rules you pick apply to your Downloads folder. Files already there are tidied right away, and you can undo from Recent activity.';
 
   @override
   String presetsAdd(int count) {
@@ -373,5 +376,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cleanupOptionsTooltip => 'Tidy options';
 
   @override
-  String get optionRemoveEmptyFolders => 'Remove folders left empty after moving files';
+  String get optionRemoveEmptyFolders =>
+      'Remove folders left empty after moving files';
 }
