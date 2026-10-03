@@ -18,7 +18,11 @@ class TidyService extends ChangeNotifier {
 
   List<Rule> _rules = const [];
   List<HistoryEntry> _history = const [];
+  List<Rule> _committed = const [];
   Object? _watchError;
+  Object? _saveError;
+  int _pendingSaves = 0;
+  Future<void> _saveQueue = Future.value();
   StreamSubscription<List<ActionResult>>? _resultsSub;
   StreamSubscription<Object>? _errorsSub;
 
@@ -30,8 +34,15 @@ class TidyService extends ChangeNotifier {
   /// 폴더를 읽지 못하는 등의 마지막 감시 오류. 확인하면 [dismissWatchError]로 지운다.
   Object? get watchError => _watchError;
 
+  /// 규칙을 디스크에 저장하고 감시 폴더를 맞추는 작업이 진행 중인지.
+  bool get saving => _pendingSaves > 0;
+
+  /// 마지막 규칙 저장 실패. 이때 규칙은 마지막으로 저장된 상태로 되돌려져 있다.
+  Object? get saveError => _saveError;
+
   Future<void> init() async {
     _rules = await ruleStore.load();
+    _committed = _rules;
     _history = await historyStore.load();
     _resultsSub = engine.results.listen(_record);
     _errorsSub = engine.errors.listen((e) {
@@ -81,12 +92,39 @@ class TidyService extends ChangeNotifier {
   Future<PlanResult> previewRule(Rule rule) =>
       engine.plan(requireStable: false, rules: [rule.copyWith(enabled: true)]);
 
-  Future<void> _setRules(List<Rule> rules) async {
+  /// 화면은 곧바로 새 규칙으로 바꾸고, 저장과 감시 재동기화는 순서대로 하나씩 한다.
+  /// 저장이 실패하면 마지막으로 저장된 규칙으로 되돌리고 [saveError]를 남긴다.
+  Future<void> _setRules(List<Rule> rules) {
     _rules = List.unmodifiable(rules);
-    // 저장·감시 폴더 재동기화는 느릴 수 있으니 화면부터 새 규칙으로 바꾼다.
+    _pendingSaves++;
     notifyListeners();
-    await ruleStore.save(_rules);
-    await engine.setRules(_rules);
+    return _saveQueue = _saveQueue.then((_) => _persist());
+  }
+
+  Future<void> _persist() async {
+    final target = _rules;
+    try {
+      await ruleStore.save(target);
+      _committed = target;
+      _saveError = null;
+      await engine.setRules(target);
+    } catch (e) {
+      if (!identical(_committed, target)) _rules = _committed;
+      _saveError = e;
+      try {
+        await engine.setRules(_rules);
+      } catch (_) {
+        // 이미 오류를 남겼다
+      }
+    } finally {
+      _pendingSaves--;
+      notifyListeners();
+    }
+  }
+
+  void dismissSaveError() {
+    _saveError = null;
+    notifyListeners();
   }
 
   /// "지금 정리"가 보여줄 미리보기. 파일을 건드리지 않는다.

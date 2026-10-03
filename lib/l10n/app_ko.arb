@@ -109,6 +109,8 @@
       }
     }
   },
+  "saveErrorTitle": "규칙을 저장하지 못해 이전 상태로 되돌렸습니다",
+  "savingRules": "저장 중…",
   "undoDone": "원래 위치로 되돌렸습니다",
   "undoFailed": "되돌리지 못했습니다: {error}",
   "@undoFailed": {

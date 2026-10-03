@@ -153,6 +153,7 @@ class HomeScreenState extends State<HomeScreen> {
     final theme = Theme.of(context);
     final service = widget.service;
     final error = service.watchError;
+    final saveError = service.saveError;
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.xl),
       child: Column(
@@ -167,12 +168,26 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: AppSpacing.lg),
           ],
+          if (saveError != null) ...[
+            MaterialBanner(
+              leading: Icon(Icons.warning_amber_rounded, color: theme.colorScheme.error),
+              content: Text('${l10n.saveErrorTitle}\n$saveError', style: AppFonts.userContent),
+              actions: [TextButton(onPressed: service.dismissSaveError, child: Text(l10n.commonClose))],
+            ),
+            const SizedBox(height: AppSpacing.lg),
+          ],
           Row(
             children: [
               Expanded(
                 child: Text(l10n.homeRulesSummary(service.rules.where((r) => r.enabled).length),
                     style: theme.textTheme.titleMedium),
               ),
+              if (service.saving) ...[
+                const SizedBox(width: 12, height: 12, child: CircularProgressIndicator(strokeWidth: 2)),
+                const SizedBox(width: AppSpacing.xs),
+                Text(l10n.savingRules, style: theme.textTheme.bodySmall),
+                const SizedBox(width: AppSpacing.lg),
+              ],
               TextButton(onPressed: () => showPresetsDialog(context, widget.service), child: Text(l10n.presetsTitle)),
               const SizedBox(width: AppSpacing.sm),
               OutlinedButton.icon(

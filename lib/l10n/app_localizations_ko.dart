@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -56,8 +55,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get aboutTagline => '다운로드 폴더를 규칙대로 알아서 정리합니다';
 
   @override
-  String get aboutDescription =>
-      'Stevedore는 다운로드 폴더 같은 곳에 생긴 파일을 확장자, 이름, 크기, 오래된 정도에 따라 자동으로 분류하고 정리합니다. 상주하며 바로 처리하거나, 원할 때 \"지금 정리\"로 직접 실행할 수 있습니다.';
+  String get aboutDescription => 'Stevedore는 다운로드 폴더 같은 곳에 생긴 파일을 확장자, 이름, 크기, 오래된 정도에 따라 자동으로 분류하고 정리합니다. 상주하며 바로 처리하거나, 원할 때 \"지금 정리\"로 직접 실행할 수 있습니다.';
 
   @override
   String get homeEmptyTitle => '아직 정리 규칙이 없습니다. 규칙을 추가해 다운로드 폴더 정리를 시작하세요';
@@ -136,8 +134,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get historyFailed => '실패';
 
   @override
-  String get historyUndoUnavailable =>
-      '휴지통 위치를 알 수 없어 되돌릴 수 없습니다. 휴지통에서 직접 복원해 주세요.';
+  String get historyUndoUnavailable => '휴지통 위치를 알 수 없어 되돌릴 수 없습니다. 휴지통에서 직접 복원해 주세요.';
 
   @override
   String tidyDone(int count) {
@@ -148,6 +145,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String tidyDonePartial(int done, int failed) {
     return '$done개 정리, $failed개 실패';
   }
+
+  @override
+  String get saveErrorTitle => '규칙을 저장하지 못해 이전 상태로 되돌렸습니다';
+
+  @override
+  String get savingRules => '저장 중…';
 
   @override
   String get undoDone => '원래 위치로 되돌렸습니다';
@@ -161,8 +164,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get watchErrorTitle => '폴더를 읽지 못했습니다';
 
   @override
-  String get watchErrorHint =>
-      '폴더가 있는지, 시스템 설정의 개인정보 보호 및 보안에서 Stevedore의 파일 및 폴더 접근이 허용돼 있는지 확인하세요.';
+  String get watchErrorHint => '폴더가 있는지, 시스템 설정의 개인정보 보호 및 보안에서 Stevedore의 파일 및 폴더 접근이 허용돼 있는지 확인하세요.';
 
   @override
   String get rulesTitle => '규칙';
@@ -322,8 +324,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get presetsTitle => '추천 규칙';
 
   @override
-  String get presetsIntro =>
-      '고른 규칙은 Downloads 폴더에 적용됩니다. 이미 있는 파일도 바로 정리되고, 최근 기록에서 되돌릴 수 있습니다.';
+  String get presetsIntro => '고른 규칙은 Downloads 폴더에 적용됩니다. 이미 있는 파일도 바로 정리되고, 최근 기록에서 되돌릴 수 있습니다.';
 
   @override
   String presetsAdd(int count) {
