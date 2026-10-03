@@ -34,6 +34,11 @@ class TrayController with TrayListener, WindowListener {
     trayManager.addListener(this);
     windowManager.addListener(this);
     await windowManager.setPreventClose(true);
+    // Windows: tray_manager가 setIcon 때 초기화되지 않은 szTip을 복사해 툴팁이
+    // 깨진 글자(CJK처럼 보이는 쓰레기 값)로 나온다. 아이콘보다 먼저 툴팁을 지정한다.
+    if (Platform.isWindows) {
+      await trayManager.setToolTip(AppIdentity.displayName);
+    }
     await trayManager.setIcon(
       Platform.isWindows ? 'assets/tray/tray_icon.ico' : 'assets/tray/tray_icon.png',
       isTemplate: true, // macOS: 라이트/다크 메뉴바 색을 OS가 맡는다 (icons.md §4).
