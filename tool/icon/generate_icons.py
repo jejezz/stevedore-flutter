@@ -24,9 +24,10 @@ Writes, for each platform folder that exists:
                                   (radius 185) with a drop shadow in a 1024
                                   canvas, glyph 440px — a sticker's white
                                   outline needs gradient around it to read
-  Windows  app_icon.ico           full-bleed plate (12% radius), glyph 80% —
-                                  a macOS-sized glyph reads as too small in
-                                  the taskbar
+  Windows  app_icon.ico           no plate — the glyph alone fills 96% of the
+                                  canvas; a square plate only hurts legibility
+                                  on Windows. Each size is drawn separately
+                                  from the glyph, sizes <= 48 lightly sharpened
   Linux    app_icon.png 512px     same as Windows
   iOS      AppIcon.appiconset     square plate, glyph 76%, NO alpha channel
                                   (App Store Connect rejects one)
@@ -64,6 +65,11 @@ MAC_SHADOW_ALPHA = 90
 # Windows / Linux: nearly edge to edge.
 DESKTOP_RADIUS_FRACTION = 0.12
 DESKTOP_GLYPH_FRACTION = 0.80
+
+# Windows .ico: no plate, the glyph alone nearly fills the canvas.
+WINDOWS_ICO_SIZES = [256, 128, 64, 48, 40, 32, 24, 20, 16]
+WINDOWS_GLYPH_FRACTION = 0.96
+WINDOWS_SHARPEN_MAX = 48
 
 # iOS / Android legacy: the OS applies its own mask to a square plate.
 MOBILE_GLYPH_FRACTION = 0.76
@@ -155,13 +161,25 @@ def write_macos(icon: Image.Image) -> None:
     print(f'macOS    {out.relative_to(ROOT)}/app_icon_{{16..1024}}.png')
 
 
-def write_windows(icon: Image.Image) -> None:
+def windows_ico_frame(glyph: Image.Image, size: int) -> Image.Image:
+    """One .ico frame: the glyph on a transparent canvas, drawn at this size."""
+    frame = centre(Image.new('RGBA', (size, size), (0, 0, 0, 0)),
+                   fit(glyph, round(size * WINDOWS_GLYPH_FRACTION)))
+    if size <= WINDOWS_SHARPEN_MAX:
+        frame = frame.filter(ImageFilter.UnsharpMask(radius=0.6, percent=60, threshold=0))
+    return frame
+
+
+def write_windows(glyph: Image.Image) -> None:
     out = ROOT / 'windows/runner/resources/app_icon.ico'
     if not out.parent.exists():
         return
-    sizes = [256, 128, 64, 48, 32, 16]
-    icon.save(out, format='ICO', sizes=[(s, s) for s in sizes])
-    print(f'Windows  {out.relative_to(ROOT)} ({"/".join(map(str, sizes))})')
+    frames = [windows_ico_frame(glyph, s) for s in WINDOWS_ICO_SIZES]
+    # Pillow takes the first image as the base and the rest via append_images;
+    # `sizes` must list every frame or it would rescale the base instead.
+    frames[0].save(out, format='ICO', sizes=[(s, s) for s in WINDOWS_ICO_SIZES],
+                   append_images=frames[1:])
+    print(f'Windows  {out.relative_to(ROOT)} ({"/".join(map(str, WINDOWS_ICO_SIZES))})')
 
 
 def write_linux(icon: Image.Image) -> None:
@@ -257,7 +275,7 @@ def main() -> None:
 
     write_macos(mac)
     desktop = desktop_icon(glyph)
-    write_windows(desktop)
+    write_windows(glyph)
     write_linux(desktop)
     mobile = mobile_icon(glyph)
     write_ios(mobile)
