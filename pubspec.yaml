@@ -44,6 +44,11 @@ dependencies:
   tray_manager: ^0.5.3
   path: ^1.9.1
   file_selector: ^1.1.0
+  app_updater:
+    git:
+      url: https://github.com/jejezz/application-release-templates
+      ref: updater-v0.1.0
+      path: updater
 dev_dependencies:
   flutter_test:
     sdk: flutter
