@@ -24,6 +24,8 @@ import 'rules/rule_store.dart';
 import 'system/login_item.dart';
 import 'tray/tray_controller.dart';
 import 'ui/home_screen.dart';
+import 'update/update_scope.dart';
+import 'update/update_service.dart';
 
 final bool _isDesktop = Platform.isMacOS || Platform.isWindows || Platform.isLinux;
 
@@ -52,7 +54,14 @@ Future<void> main(List<String> args) async {
 
   final loginItem = LoginItemController(_isDesktop ? LoginItemBackend.forPlatform() : null);
   await loginItem.init();
-  runApp(App(settings: settings, service: await _startService(settings), loginItem: loginItem));
+  // 데스크톱이 아니거나 UPDATE_SERVER 가 비어 있으면 null — 업데이트 확인 없음.
+  final updates = await UpdateService.create();
+  final service = await _startService(settings);
+  // UpdateScope 는 MaterialApp 위 — 정보 창이 이것을 읽어 "업데이트 확인" 단추를 붙인다.
+  runApp(UpdateScope(
+    service: updates,
+    child: App(settings: settings, service: service, loginItem: loginItem, updates: updates),
+  ));
 }
 
 /// 저장된 규칙으로 감시를 시작한다. 규칙이 없으면 감시할 폴더도 없다.
@@ -69,11 +78,14 @@ Future<TidyService> _startService(AppSettings settings) async {
 }
 
 class App extends StatefulWidget {
-  const App({super.key, required this.settings, required this.service, required this.loginItem});
+  const App({super.key, required this.settings, required this.service, required this.loginItem, this.updates});
 
   final AppSettings settings;
   final TidyService service;
   final LoginItemController loginItem;
+
+  /// 시작할 때 새 버전을 확인한다. null 이면 업데이트 확인을 쓰지 않는다.
+  final UpdateService? updates;
 
   @override
   State<App> createState() => _AppState();
@@ -99,6 +111,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     widget.settings.addListener(_syncWindowBrightness);
     _syncWindowBrightness();
+    widget.updates?.startAutomaticCheck(_navigatorKey);
   }
 
   @override
@@ -131,6 +144,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     showAppAboutDialog(context, tagline: l10n.aboutTagline, description: l10n.aboutDescription);
   }
 
+  void _checkForUpdates() {
+    final context = _navigatorKey.currentContext;
+    if (context != null) widget.updates?.checkManually(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppSettingsScope(
@@ -148,7 +166,11 @@ class _AppState extends State<App> with WidgetsBindingObserver {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           localeResolutionCallback: AppSettings.resolveLocale,
-          builder: (context, child) => AppMenuBar(onAbout: _showAbout, child: child!),
+          builder: (context, child) => AppMenuBar(
+            onAbout: _showAbout,
+            onCheckForUpdates: widget.updates == null ? null : _checkForUpdates,
+            child: child!,
+          ),
           home: HomeScreen(key: _homeKey, onAbout: _showAbout, service: widget.service, loginItem: widget.loginItem),
         ),
       ),
