@@ -17,6 +17,7 @@ import 'presets_dialog.dart';
 import 'rule_editor.dart';
 import '../rules/rule.dart';
 import 'rules_list.dart';
+import '../window/focus_tint.dart';
 
 /// 메인 화면: 규칙 요약 + "지금 정리" + 최근 기록. 규칙도 기록도 없으면 빈 상태 (ui-ux.md §6).
 class HomeScreen extends StatefulWidget {
@@ -99,6 +100,7 @@ class HomeScreenState extends State<HomeScreen> {
         final empty = service.rules.isEmpty && service.history.isEmpty;
         return Scaffold(
           appBar: AppBar(
+            flexibleSpace: const FocusTint(),
             title: const Text(AppIdentity.displayName),
             actions: [
               LoginItemMenuButton(controller: widget.loginItem),
